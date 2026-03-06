@@ -1,0 +1,115 @@
+/*----- C A R T I T E M - G E N E R A L -----*/
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto; 
+    gap: 1rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--clr-neutral-100);
+}
+
+ 
+.cart-item__img {
+    width: 80px;
+    height: 80px;
+    display: block;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    background-color: var(--clr-neutral-100);
+}
+
+/*---------- B R A N D - S P E C S ---------*/
+
+
+.cart-item__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.cart-item__brand {
+    font-size: 0.7rem;
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--clr-neutral-400);
+}
+
+.cart-item__specs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.cart-item__spec {
+    font-size: 0.75rem;
+    color: var(--clr-neutral-500);
+}
+
+/*-------- P R I C E - R E M O V E ---------*/
+
+.cart-item__group {
+    display: flex;
+    align-items: center;
+    gap: 1.7rem;
+}
+
+.cart-item__price {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--clr-neutral-700);
+}
+
+.cart-item__remove-btn {
+    display: flex;
+    justify-content: flex-end;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.cart-item__remove-btn img {
+    width: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+/*---------- D E S K T O P ----------*/
+
+@media screen and (min-width: 768px) {
+    .cart-item {
+        grid-template-columns: 120px 1fr 1.4fr; 
+        gap: 2.5rem;
+        min-height: 120px;
+        background-color: var(--clr-white);
+    }
+
+    .cart-item__img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .cart-item__name {
+        font-size: 1.2rem;
+    }
+
+    .cart-item__price {
+        font-size: 0.9rem;
+    }
+
+    .cart-item__remove-btn img {
+        transition: transform 0.2s ease, opacity 0.2s;
+    }
+
+    .cart-item__remove-btn:hover img {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .cart-item__group {
+        gap: 3rem;
+    }
+}

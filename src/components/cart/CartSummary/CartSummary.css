@@ -1,0 +1,105 @@
+/*----- C A R T - S U M M A R Y  -----*/
+
+.cart-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    color: var(--clr-neutral-900);
+    background-color: var(--clr-white); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+}
+
+.cart-summary__title {
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--clr-neutral-900); 
+}
+
+/*----------- D E T A I L S -------------*/
+
+.cart-summary__details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--clr-neutral-200); 
+}
+
+.cart-summary__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--clr-neutral-400); 
+}
+
+.cart-summary__value {
+    font-weight: var(--fw-bold);
+    color: var(--clr-neutral-700);
+}
+
+/*---------- T O T A L -----------*/
+
+.cart-summary__total {
+    padding: 2.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    color: var(--clr-neutral-900);
+    font-weight: var(--fw-bold);
+}
+
+.cart-summary__total-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.cart-summary__total-price {
+    font-size: 3.2rem; 
+    font-weight: var(--fw-bold);
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.cart-summary__note {
+    font-size: 0.8rem;
+    padding-top: 0.9rem;
+    color: var(--clr-neutral-400);
+    margin:0 auto;
+}
+
+/*------- B U T T O N  -------*/
+
+.cart-summary__btn {
+    margin: 0 auto;
+    padding: 0.9rem 1.4rem;
+    border-radius: 3rem;
+    font-size: 0.75rem;
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    background-color: var(--clr-primary); 
+    color: var(--clr-white);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cart-summary__btn:hover {   
+    transform: scale(1.05);
+}
+
+/*---------- D E S K T O P ----------*/
+
+@media screen and (min-width: 768px) {
+    .cart-summary {
+        position: sticky;
+        top: 2rem; 
+    }
+}

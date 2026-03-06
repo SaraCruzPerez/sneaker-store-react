@@ -1,0 +1,45 @@
+/*------- U S E R - B U T T O N ------*/
+
+.user__btn {    
+    width: 32px;  
+    height: 32px;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;    
+}
+
+.user__btn:hover {
+    background-color: var(--clr-neutral-200);
+}
+
+.user__btn-icon {
+    width: 22px; 
+    height: 22px;
+    transition: all 0.2s ease;
+}
+
+/*------- L O G G E D - S T A T E -------*/
+
+.user__btn-logged {
+    background-color: var(--clr-primary);
+}
+
+.user__btn-logged .user__btn-icon {
+    filter: brightness(0) invert(1);
+}
+
+.user__btn-logged:hover {
+    background-color: var(--clr-primary);
+}
+
+
+/*---------- R E S P O N S I V E -----------*/
+
+@media screen and (min-width: 768px) {
+    .user {
+        width: 40px; 
+        height: 40px;
+    }    
+}

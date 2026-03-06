@@ -1,0 +1,139 @@
+/*----- N A V - C O N T A I N E R -----*/
+
+.nav__container {
+    width: 70%;
+    height: 100vh;
+    display: flex;    
+    flex-direction: column;
+    position: fixed;
+    inset: 0 0 0 auto;     
+    padding: 1.5rem;   
+    gap: 3rem;
+    z-index: 100; 
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;     
+    background-color: var(--clr-white);
+}
+
+/*------- M E N U - O P E N ---------*/
+
+.nav__container.is-open {
+    transform: translateX(0);
+}
+
+.nav__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99; 
+    opacity: 0;
+    animation: overlay 0.3s forwards;    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes overlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+/*------- C L O S E - B U T T O N --------*/
+
+.nav__close {   
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;  
+    width: 32px;  
+    height: 32px;   
+    display: flex;
+    align-items: center;   
+    justify-content: center;  
+    cursor: pointer;     
+}
+
+.nav__close img {
+    width: 24px;  
+    height: 24px;
+}
+
+.nav__close:hover {
+    background-color: var(--clr-neutral-200);
+    border-radius: 50%;
+}
+
+
+/*-------- N A V - L I N K -------- */
+
+.nav__list {    
+    height: 100%;
+    display: flex;
+    flex-direction: column;   
+    padding: 6rem 0.8rem;
+    gap: 2.5rem; 
+    font-size: 1.4rem;
+    font-weight: var(--fw-bold);
+    color: var(--clr-neutral-900);
+}
+
+.nav__item:hover {
+    color: var(--clr-neutral-700);
+}
+
+
+/*---------- D E S K T O P -----------*/
+
+@media screen and (min-width: 768px) {
+
+    /*---- N A V - C O N T A I N E R ---- */
+
+    .nav__container {              
+        width: auto;
+        height: 100%;
+        display: block;
+        position: static;
+        padding: 0;
+        gap: 1rem;
+        background-color: transparent;
+        transform: translateX(0);
+    }
+
+    .nav__close, 
+    .nav__overlay {
+        display: none; 
+    }
+
+    /*----- N A V - L I N K ----- */
+
+    .nav__list {
+        height: 100%;       
+        flex-direction: row;
+        align-items: center;        
+        padding: 0;   
+        gap: 2.5rem;        
+        font-size: 1rem;
+        color: var(--color-gray-dark);        
+    }
+
+    .nav__item {
+        height: 100%;        
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    /*---  H O V E R - E F F E C T S ---*/
+        
+    .nav__item:hover {
+        color: var(--clr-neutral-900);
+    }
+
+    .nav__item:hover::after {
+        content:"";
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: var(--clr-primary);
+    }    
+}

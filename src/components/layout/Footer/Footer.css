@@ -1,0 +1,138 @@
+/*---- F O O T E R - G E N E R A L ----*/
+
+.footer {
+    padding: 3.5rem 1.5rem 1.5rem;
+    color: var(--clr-white);
+    background-color: var(--clr-neutral-900);
+}
+
+.footer__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center; 
+}
+
+/*------- B R A N D - S E C T I O N -------*/
+
+.footer__brand {  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__logo {
+    width: 140px;
+    height: auto;
+    margin-bottom: 0.7rem;
+    filter: brightness(0) invert(1); 
+}
+
+.footer__description {
+    max-width: 400px;
+    margin: 0 auto 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.6;    
+    color: var(--clr-neutral-700);
+}
+
+.footer__socials {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.footer__social-link {
+    color: var(--clr-neutral-200);
+    transition: transform 0.3s;
+}
+
+.footer__social-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+.footer__social-link:hover {
+    transform: translateY(-3px);
+}
+
+
+/*------- L I N K S - & - I N F O -------*/
+
+.footer__title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.2rem;
+    color: var(--clr-white);
+}
+
+.footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.footer__links li {  
+    font-size: 0.9rem;
+    line-height: 1rem;
+    color: var(--clr-neutral-700);
+    transition: color 0.3s;
+}
+
+.footer__links a:hover {
+    color: var(--clr-neutral-400);
+}
+
+/*------- B O T T O M - B A R -------*/
+
+.footer__bottom {
+    max-width: var(--max-width);
+    margin: 3rem auto 0;
+    padding-top: 1.5rem;
+    font-size: 0.8rem;
+    text-align: center;
+    color: var(--clr-neutral-700);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/*---------- D E S K T O P -----------*/
+
+@media (min-width: 768px) {
+
+    /*---- F O O T E R - G E N E R A L ----*/
+
+    .footer__container {
+        grid-template-columns: 2fr 1.5fr 1fr;
+        text-align: left;
+        gap: 2rem;
+    }
+
+    /*------- B R A N D - S E C T I O N -------*/
+
+    .footer__brand {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 1.6rem;
+    }
+
+    .footer__description {
+        margin: 0 0 1.5rem 0;
+    }
+
+    .footer__socials {
+        justify-content: flex-start;
+    }
+
+
+    /*------- B O T T O M - B A R -------*/
+
+    .footer__bottom {
+        margin-top: 2.5rem;
+    }
+}

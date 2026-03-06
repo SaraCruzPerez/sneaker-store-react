@@ -1,0 +1,153 @@
+/*------ S T O R E S - G E N E R A L  ----*/
+
+.stores {
+    padding: 1.4rem 1.5rem 3rem;
+    min-height: 90vh;
+}
+
+.stores__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/*---------- H E A D E R ----------*/
+
+.stores__header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-end;
+    flex-wrap: wrap;     
+    margin-bottom: 3rem;
+    gap: 1rem;
+}
+
+.stores__title {
+    font-size: 2.5rem;
+    font-weight: var(--fw-bold);
+    color: var(--clr-neutral-900);
+}
+
+.stores__title--orange {
+    color: var(--clr-primary);
+}
+
+.stores__subtitle {
+    font-size: 1rem;
+    color: var(--clr-neutral-400);
+}
+
+.stores__reset {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--clr-white);
+    border-radius: 3rem;
+    border: 2px solid var(--clr-neutral-900);
+    background-color: var(--clr-neutral-900);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stores__reset:hover {
+    color: var(--clr-neutral-900);
+    border: 2px solid var(--clr-neutral-900);
+    background-color: var(--clr-neutral-100);
+}
+
+/*------- C O N T E N T - G R I D -------*/
+
+.stores__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+/*------------ L I S T ---------------*/
+
+.stores__item {
+    padding: 1.3rem 0;
+    border-bottom: 1px solid var(--clr-neutral-100);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stores__item:first-child {
+    border-top: 1px solid var(--clr-neutral-100);
+}
+
+.stores__city {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--clr-neutral-400);
+}
+
+.stores__name {
+    margin: 0.3rem 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--clr-neutral-900);
+}
+
+.stores__address {
+    font-size: 0.85rem;
+    color: var(--clr-neutral-400);
+}
+
+.stores__item.is-active {
+    padding-left: 1rem;
+    border-left: 4px solid var(--clr-primary);
+    background-color: var(--clr-neutral-100);
+}
+
+.stores__item:hover {
+    padding-left: 1rem;
+    background-color: var(--clr-neutral-100);
+}
+
+/*------------- M A P -------------*/
+
+.stores__map-wrapper {
+    width: 100%;
+    height: 350px;
+    border-radius: 0.5rem;    
+    border: 1px solid var(--clr-neutral-100);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.leaflet-container {
+    height: 400px; 
+    width: 100%;
+}
+
+.store-marker-custom {
+    background-color: var(--clr-primary);
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+
+/*------------ D E S K T O P ------------*/
+
+@media screen and (min-width: 768px) {
+
+    .stores {
+        padding: 1.375rem 0 3.5rem;
+    }
+
+    .stores__content {
+        grid-template-columns: 1fr 1.5fr; 
+        align-items: start;
+        gap: 4rem;
+    }
+
+    .stores__map-wrapper,
+    .leaflet-container {
+        height: 500px;
+    }
+}
+

@@ -1,0 +1,9 @@
+/*----- M A I N - G E N E R A L -----*/
+
+.main__content {
+    width: 100%;
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+}
+

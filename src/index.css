@@ -1,0 +1,102 @@
+/* ------ F O N T S ------ */
+
+@font-face {
+    font-family: 'Kumbh Sans';  
+    src: url('./assets/fonts/KumbhSans-VariableFont_YOPQ\,wght.ttf') format('truetype');
+    font-weight: 400 700;
+    font-style: normal;
+}
+
+/* ------ R E S E T ------ */
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button, a {  
+    color: inherit;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font: inherit;
+}
+
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+img,
+picture,
+figure,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+
+/* ------- D E S I G N - T O K E N S ------- */
+
+:root {
+    /* Primary Colors */
+    --clr-primary: hsl(26, 100%, 55%);
+    --clr-primary-light: hsl(24, 100%, 98%);
+
+    /* Neutral Colors */
+    --clr-neutral-900: hsl(220, 13%, 13%); 
+    --clr-neutral-700: hsl(219, 9%, 45%);  
+    --clr-neutral-400: hsl(220, 14%, 75%); 
+    --clr-neutral-200: hsl(227, 27%, 94%);
+    --clr-neutral-100: hsl(223, 64%, 98%);  
+    
+    --clr-white: hsl(0, 0%, 100%);
+    --clr-black: hsl(0, 0%, 0%);
+
+    /* Typography */
+    --ff-main: 'Kumbh Sans', sans-serif;
+    --fw-reg: 400;
+    --fw-bold: 700;
+    
+    /* Layout */
+    --max-width: 1110px;
+}
+
+
+/* ------ G L O B A L - S T Y L E S ------ */
+
+body {
+    min-height: 100%;
+    font-family: var(--ff-main);
+    font-size: 1rem;
+    background-color: var(--clr-white);
+    line-height: 1.5;
+    color: var(--clr-neutral-700);
+    overflow-x: hidden; 
+    overflow-y: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+
+
+

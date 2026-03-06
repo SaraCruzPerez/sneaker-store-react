@@ -1,0 +1,145 @@
+/*---- R E G I S T E R - P A G E ----*/
+
+.register {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+}
+
+.register__card {
+    margin: 2rem 0;
+    width: 100%;
+    max-width: 450px;
+    padding: 3rem 2.5rem 2.4rem;
+    border-radius: 0.5rem;
+    background-color: var(--clr-white);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/*--------- H E A D E R ---------*/
+
+.register__header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.register__title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--clr-neutral-900);
+    line-height: 0.9;
+    letter-spacing: -1px;
+}
+
+.register__title-orange {
+    color: var(--clr-primary);
+}
+
+.register__subtitle {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--clr-neutral-400);
+}
+
+/*--------- F O R M - G R O U P S ---------*/
+
+.register__input-group {
+    margin-bottom: 1.5rem;
+    position: relative; 
+}
+
+.register__label {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--clr-neutral-700);
+}
+
+.register__input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    color: var(--clr-neutral-900);   
+    border-radius: 0.5rem; 
+    border: 2px solid var(--clr-neutral-100);
+    transition: all 0.3s ease;
+}
+
+.register__input:focus {
+    outline: none;
+    border-color: var(--clr-primary);
+}
+
+::placeholder {
+    font-size: 0.8rem;
+    color: var(--clr-neutral-200);
+}
+
+/*--------- S T Y L E S - E R R O R S -------*/
+
+.register__input-error {
+    border-color: var(--clr-primary);
+    background-color: var(--clr-white);
+}
+
+.register__error-msg {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--clr-primary);
+}
+
+/*---------- B U T T O N ---------*/
+
+.register__button {
+    display: flex;
+    margin: 2rem auto 0;
+    padding: 0.7rem 1.8rem;    
+    border-radius: 3rem;
+    font-size: 0.8rem;    
+    font-weight: var(--fw-bold);
+    letter-spacing: 2px;    
+    color: var(--clr-white);   
+    background-color: var(--clr-neutral-900);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+    transition: all 0.2s ease;
+}
+
+.register__button:hover {
+    background-color: var(--clr-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 15px 25px var(--clr-primary-light);
+}
+
+/*------------ D E S K T O P ------------*/
+
+@media (max-width: 480px) {
+    
+    .register__card { 
+        padding: 2.8rem 1.7rem 2.3rem; 
+    }
+
+    .register__title { 
+        font-size: 1.8rem; 
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    .register {
+        min-height: 100vh;
+    }
+}

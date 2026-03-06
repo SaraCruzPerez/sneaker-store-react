@@ -1,0 +1,57 @@
+/*---- C O L L E C T I O N S - G E N E R A L  ----*/
+
+.collections {
+    max-width: var(--max-width); 
+    min-height: 90vh;
+    padding: 2rem 1.5rem 3rem;
+    margin: 0 auto;
+}
+
+/*---------- H E A D E R ----------*/
+
+.collections__title {
+    font-size: 2.5rem;
+    font-weight: var(--fw-bold);
+    color: var(--clr-neutral-900);
+    line-height: 1;
+}
+
+.collections__title-orange {
+    color: var(--clr-primary);
+}
+
+.collections__subtitle {
+    margin: 0.6rem 0 3rem;
+    font-size: 1rem;
+    color: var(--clr-neutral-400);     
+    
+}
+
+.collections__grid {
+    display: grid;     
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.5rem 2rem; 
+}
+
+/*---------- D E S K T O P -----------*/
+
+@media screen and (min-width: 768px) {
+    .collections {
+        padding: 2rem 0 3.5rem;
+    }
+    
+    .collections__grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    .collections__subtitle {
+        margin-bottom: 4rem;
+    }
+        
+}
+
+@media screen and (min-width: 1024px) {
+    .collections__grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

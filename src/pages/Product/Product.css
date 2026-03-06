@@ -1,0 +1,33 @@
+/*----- D E T A I L   L A Y O U T ----*/
+
+.detail {
+    padding: 3rem 1.5rem 3.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    min-height: 80vh;
+}
+
+.detail__container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/*---------- D E S K T O P  -----------*/
+
+@media screen and (min-width: 1024px) {
+    .detail {
+        padding: 4rem 2rem;
+    }
+
+    .detail__container {
+        flex-direction: row; 
+        align-items: center; 
+        gap: 5rem; 
+    }
+
+    .detail__gallery,
+    .detail__info {
+        flex: 1; 
+    }
+}

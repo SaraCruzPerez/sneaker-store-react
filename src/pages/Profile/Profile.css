@@ -1,0 +1,93 @@
+/*---- P R O F I L E - G E N E R A L ----*/
+
+.profile {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--clr-neutral-100);
+}
+
+.profile__container {
+    width: 100%;
+    max-width: 450px; 
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/*------- C A R D - S T Y L E -------*/
+
+.profile__card {
+    background-color: var(--clr-white);
+    padding: 3rem 2rem;
+    border-radius: 0.5rem; 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.profile__avatar {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: var(--fw-bold);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    color: var(--clr-white);
+    background-color: var(--clr-primary);
+    box-shadow: 0 10px 20px var(--clr-primary-light);
+}
+
+.profile__header {
+    margin-bottom: 2.5rem;
+}
+
+.profile__title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--clr-neutral-900);
+    margin-bottom: 0.5rem;
+}
+
+.profile__subtitle {
+    font-size: 0.9rem;
+    color: var(--clr-neutral-400);
+}
+
+/*------- B U T T O N -------*/
+
+.profile__btn {
+    display: inline-block;
+    background: none;
+    padding: 0.7rem 2.5rem; 
+    border-radius: 3rem; 
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    border: 2px solid var(--clr-neutral-900);
+    color: var(--clr-neutral-900);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.profile__btn:hover {
+    background-color: var(--clr-neutral-900);
+    color: var(--clr-white);
+    transform: translateY(-1px);
+}
+
+/*------------ D E S K T O P ------------*/
+
+@media screen and (min-width: 768px) {
+    .profile {
+        min-height: 90vh; 
+    }
+}

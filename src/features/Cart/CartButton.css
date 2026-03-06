@@ -1,0 +1,65 @@
+/*----- C A R T - B T N ----*/
+
+.cart {
+    position: relative;
+    width: 32px;  
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.cart:hover {
+    background-color: var(--clr-neutral-200);
+    border-radius: 50%;
+}
+
+/*------- I C O N -------*/
+
+.cart__icon {
+    width: 22px;  
+    height: 22px;
+    pointer-events: none;
+    transition: background-color 0.2s ease;
+}
+
+/*------- C O U N T E R   B A D G E -------*/
+
+.cart__count {
+    position: absolute;
+    min-width: 16px;
+    height: 16px;
+    top:-1px;
+    right: -1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 50%;
+    color: white;
+    background-color: var(--clr-primary); 
+}
+
+/*----------- D E S K T O P  -----------*/
+
+@media screen and (min-width: 768px) {
+    .cart {
+        width: 40px; 
+        height: 40px;
+    }
+    
+    .cart__icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .cart__count {
+        top: 1px;
+        right: 1px;
+    }
+}
