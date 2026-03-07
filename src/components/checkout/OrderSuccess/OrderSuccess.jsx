@@ -18,7 +18,7 @@ const OrderSuccess = () => {
 
         <button 
           className="checkout-page__btn" 
-          onClick={() => window.location.href = '/'}
+          onClick={() => window.location.href = '/collections'}
         >
           Continue Shopping
         </button>

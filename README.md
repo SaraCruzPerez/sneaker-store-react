@@ -6,7 +6,7 @@ Este es un proyecto de e-commerce centrado en la experiencia de usuario durante 
 
 ---
 
-##  Vista Previa
+## [Ver Proyecto →](https://sneaker-store-react.vercel.app)
 
 <br />
 
