@@ -50,27 +50,40 @@ const Register = () => {
 
         <form className="register__form" onSubmit={handleSubmit} noValidate>
           <div className="register__input-group">
-            <label className="register__label">Full Name</label>
+            <label htmlFor="name" className="register__label">Full Name</label>
             <input 
+              id="name"
+              name="name" 
+              autocomplete="name"
               className={`register__input ${errors.name ? 'register__input-error' : ''}`}
               type="text" 
               value={name} 
               onChange={(e) => setName(e.target.value)} 
               placeholder="Sara Cruz"
+              aria-required="true"
+              aria-invalid={errors.name ? "true" : "false"}
+              aria-describedby={errors.name ? "name-error" : undefined}
+              required
             />
-            {errors.name && <span className="register__error-msg">{errors.name}</span>}
+            {errors.name && <span id="name-error" className="register__error-msg" role="alert">{errors.name}</span>}
           </div>
 
           <div className="register__input-group">
-            <label className="register__label">Email Address</label>
+            <label htmlFor="email" className="register__label">Email Address</label>
             <input 
+              id="email"
               className={`register__input ${errors.email ? 'register__input-error' : ''}`}
+              name="email"
+              autocomplete="email"
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               placeholder="sara@example.com"
+              aria-invalid={errors.email ? "true" : "false"}
+              aria-describedby={errors.email ? "email-error" : undefined}
+              required
             />
-            {errors.email && <span className="register__error-msg">{errors.email}</span>}
+            {errors.email && <span id="email-error" className="register__error-msg" role="alert">{errors.email}</span>}
           </div>
 
           <button type="submit" className="register__button">

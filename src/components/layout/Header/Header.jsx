@@ -15,11 +15,11 @@ const Header = () => {
     return (
         <header className="header">
 
-            <Link to="/" className="header__logo">
-                <img className="logo" src={logo} alt="Sneakers logo" />
+            <Link to="/" className="header__logo" aria-label="Sneakers Home">
+                <img className="logo" src={logo} alt="" aria-hidden="true" />
             </Link>
             
-            <Navbar isOpen={isMenuOpen} onClose={toggleMenu} />
+            <Navbar isOpen={isMenuOpen} onClose={toggleMenu} id="menu-navigation" />
 
             <div className="header__actions">
                 <UserButton />
@@ -30,7 +30,7 @@ const Header = () => {
                     className="header__menu-btn"
                     aria-controls="menu-navigation"
                     aria-expanded={isMenuOpen}
-                    aria-label="Toggle menu navigation"
+                    aria-label={isMenuOpen ? "Close main menu" : "Open main menu"}
                     onClick={toggleMenu}
                 > 
                     <img src={btnMenu} alt="" aria-hidden="true" />

@@ -8,9 +8,13 @@ const CartButton = () => {
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
+  const cartLabel = totalItems > 0 
+    ? `View cart, ${totalItems} items in bag` 
+    : "View cart, bag is empty";
+
   return (
-    <Link to="/cart" className="cart" aria-label="View cart">
-      <img src={cartIcon} alt="" className="cart__icon" />
+    <Link to="/cart" className="cart" aria-label={cartLabel}>
+      <img src={cartIcon} alt="" className="cart__icon" aria-hidden="true" />
       {totalItems > 0 && (
         <span className="cart__count" key={totalItems}>{totalItems}</span>
       )}

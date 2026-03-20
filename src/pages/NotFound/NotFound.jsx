@@ -3,9 +3,9 @@ import "./NotFound.css";
 
 const NotFound = () => {
   return (
-    <main className="error">
+    <main className="error" aria-live="polite">
       <div className="error__container">
-        <h1 className="error__code">404</h1>
+        <span className="error__code" aria-hidden="true">404</span>
         <h2 className="error__title">Oops! You're off-track.</h2>
         <p className="error__text">
           The page you are looking for doesn't exist or has been moved. 

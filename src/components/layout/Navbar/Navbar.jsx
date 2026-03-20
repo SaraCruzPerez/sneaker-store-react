@@ -22,6 +22,7 @@ const Navbar = ({ isOpen, onClose }) => {
       <nav 
         className={`nav__container ${isOpen ? "is-open" : ""}`} 
         id="menu-navigation"
+        aria-label="Main navigation" 
       >
         <button
           className="nav__close"
@@ -34,7 +35,11 @@ const Navbar = ({ isOpen, onClose }) => {
         <ul className="nav__list">
           {navLinks.map((link) => (
             <li key={link.name} className="nav__item">
-              <Link to={link.path} onClick={onClose} className="nav__link">
+              <Link 
+                to={link.path} 
+                onClick={onClose} 
+                className="nav__link"
+                >                  
                 {link.name}
               </Link>
             </li>

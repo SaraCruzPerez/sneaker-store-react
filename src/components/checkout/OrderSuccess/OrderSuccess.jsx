@@ -4,13 +4,15 @@ import checkIcon from '../../../assets/icons/icon-check.svg'
 const OrderSuccess = () => {
 
   return (
-    <div className="checkout-success">
-      <div className="checkout-success__card">
+    <div className="checkout-success" aria-live="polite">
+      <div className="checkout-success__container">
         <div className="checkout-success__icon">
-          <img src={checkIcon} alt="" />
+          <img src={checkIcon} alt="" aria-hidden="true" />
         </div>
         
-        <h2 className="checkout-success__title">Order <span className="text-orange">Confirmed</span></h2>
+        <h2 className="checkout-success__title">
+          Order <span className="text-orange">Confirmed</span>
+        </h2>
         
         <p className="checkout-success__text">
           Thank you for your purchase! Your order has been processed successfully
@@ -18,7 +20,7 @@ const OrderSuccess = () => {
 
         <button 
           className="checkout-page__btn" 
-          onClick={() => window.location.href = '/collections'}
+          onClick={() => navigate('/collections')}
         >
           Continue Shopping
         </button>

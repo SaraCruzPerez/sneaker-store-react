@@ -4,7 +4,7 @@
     padding: 3rem 1.5rem 3.5rem;
     max-width: var(--max-width);
     margin: 0 auto;
-    min-height: 80vh;
+    min-height: 85vh;
 }
 
 .detail__container {
@@ -18,12 +18,13 @@
 @media screen and (min-width: 1024px) {
     .detail {
         padding: 4rem 2rem;
+        max-width: 1100px;
     }
 
     .detail__container {
         flex-direction: row; 
         align-items: center; 
-        gap: 5rem; 
+        gap: 4rem; 
     }
 
     .detail__gallery,

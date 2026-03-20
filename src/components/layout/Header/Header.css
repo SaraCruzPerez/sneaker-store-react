@@ -14,23 +14,37 @@
 
 /*------ N A V I G A T I O N ------*/
 
+.header__logo,
 .logo {
-    width: 120px; 
-    height: auto;    
+    width: 120px;
+    height: auto;
 }
 
 .header__menu-btn {    
-    width: 32px;  
-    height: 32px;    
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: none;
+    border: none;
     cursor: pointer;
-    padding: 0;
-    border: none;    
-    border-radius: 50%;    
-    background-color: transparent;
-    transition: background-color 0.3s ease;
+    width: 36px;  
+    height: 36px;    
+    border-radius: 50%;   
+    transition: background-color 0.2s ease; 
+    flex-shrink: 0;
+}
+
+.header__menu-btn::after {
+    content: '';
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    border-radius: 50%;
 }
 
 .header__menu-btn:hover {
@@ -48,7 +62,7 @@
 .header__actions {
     display: flex;
     align-items: center;
-    gap: 8px;    
+    gap: 0.3rem;    
 }
 
 /*---------- D E S K T O P -----------*/
@@ -78,6 +92,6 @@
 
     .header__actions {
         margin-left: auto;
-        gap:15px;
+        gap:12px;
     }
 }

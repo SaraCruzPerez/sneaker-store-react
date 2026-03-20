@@ -30,6 +30,13 @@ button {
     font: inherit;
 }
 
+button:focus-visible, 
+a:focus-visible {
+    outline: 2px solid var(--clr-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
 input,
 textarea,
 select {
@@ -59,7 +66,7 @@ ul, ol {
 
     /* Neutral Colors */
     --clr-neutral-900: hsl(220, 13%, 13%); 
-    --clr-neutral-700: hsl(219, 9%, 45%);  
+    --clr-neutral-700: hsl(219, 9%, 35%);  
     --clr-neutral-400: hsl(220, 14%, 75%); 
     --clr-neutral-200: hsl(227, 27%, 94%);
     --clr-neutral-100: hsl(223, 64%, 98%);  

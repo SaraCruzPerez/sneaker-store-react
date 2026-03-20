@@ -12,14 +12,16 @@ const Cart = () => {
     <main className="cart-page">
       <div className="cart-page__container">
         {cart.length === 0 ? (
-          <div className="cart-page__empty-wrapper">
+          <div className="cart-page__empty-wrapper" aria-live="polite">
             <CartEmpty />
           </div>
         ) : (
           <div className="cart-page__content">
              <header className="cart-page__header">
                 <h1 className="cart-page__title">Your <span className="text-orange">Bag</span></h1>
-                <p className="wishlist__count-text">{cart.length} items saved</p>
+                <p className="wishlist__count-text" aria-live="polite">
+                  {cart.length} {cart.length === 1 ? 'item' : 'items'} in your bag
+                </p>
              </header>
              <div className="cart-page__grid">
                 <section className="cart-page__items">
@@ -27,7 +29,9 @@ const Cart = () => {
                       <CartItem key={`${item.id}-${item.size}`} item={item} onRemove={removeFromCart} />
                    ))}
                 </section>
-                <CartSummary total={total} />
+                <aside className="cart-page__summary-container" aria-label="Order summary">
+                  <CartSummary total={total} />
+                </aside>
              </div>
           </div>
         )}

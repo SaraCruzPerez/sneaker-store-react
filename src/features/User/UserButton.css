@@ -1,13 +1,30 @@
 /*------- U S E R - B U T T O N ------*/
 
 .user__btn {    
-    width: 32px;  
-    height: 32px;   
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;    
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 36px;  
+    height: 36px;    
+    border-radius: 50%;   
+    transition: background-color 0.2s ease; 
+    flex-shrink: 0;   
+}
+
+.user__btn::after {
+    content: '';
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    border-radius: 50%;    
 }
 
 .user__btn:hover {
@@ -39,7 +56,7 @@
 
 @media screen and (min-width: 768px) {
     .user {
-        width: 40px; 
-        height: 40px;
+        width: 44px; 
+        height: 44px;
     }    
 }

@@ -4,7 +4,7 @@ import "./Collections.css";
 
 const Collections = () => {
   return (
-    <section className="collections">
+    <main className="collections">
       <div className="collections__container">
         <h2 className="collections__title">
           Our <span className="collections__title-orange">Collection</span>
@@ -14,13 +14,19 @@ const Collections = () => {
           Discover our latest drops and exclusive designs.
         </p>
         
-        <div className="collections__grid">
+        <div 
+          className="collections__grid" 
+          role="list" 
+          aria-label="Product sneaker collection"
+          >
           {products.map((item) => (
-            <ProductCard key={item.id} product={item} />
+            <div key={item.id} role="listitem">
+              <ProductCard product={item} />
+            </div>
           ))}
         </div>
       </div>
-    </section>
+    </main>
   );
 };
 

@@ -3,7 +3,7 @@ import "./CartSummary.css";
 
 const CartSummary = ({ total }) => {
   return (
-    <aside className="cart-summary">
+    <div className="cart-summary">
       <h2 className="cart-summary__title">Order Summary</h2>
       
       <div className="cart-summary__details">
@@ -19,7 +19,7 @@ const CartSummary = ({ total }) => {
 
       <div className="cart-summary__total">
         <span>Total</span>
-        <span>${total.toFixed(2)}</span>
+        <span aria-live="polite">${total.toFixed(2)}</span>
       </div>
 
       <Link to="/checkout" className="cart-summary__btn">
@@ -29,7 +29,7 @@ const CartSummary = ({ total }) => {
       <p className="cart-summary__note">
         Shipping & taxes calculated at checkout
       </p>
-    </aside>
+    </div>
   );
 };
 

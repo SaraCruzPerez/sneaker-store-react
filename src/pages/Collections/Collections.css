@@ -29,8 +29,8 @@
 
 .collections__grid {
     display: grid;     
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1.5rem 2rem; 
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1.5rem 1.5rem; 
 }
 
 /*---------- D E S K T O P -----------*/

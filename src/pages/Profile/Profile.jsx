@@ -1,4 +1,5 @@
 import { useUser } from "../../context/UserContext";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 
@@ -6,29 +7,49 @@ const Profile = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!user) {
+      navigate("/register");
+    }
+  }, [user, navigate]);
+
   const handleLogout = () => {
     logout();
     navigate("/"); 
   };
 
+  if (!user) return null;
+
   return (
-    <main className="profile">
+    <main className="profile" id="main-content">
       <div className="profile__container">
-        <div className="profile__card">
+        <section className="profile__card">
           <header className="profile__header">
-            <div className="profile__avatar">
-              {user?.name?.charAt(0).toUpperCase() || "U"}
+            <div className="profile__avatar" aria-hidden="true">
+              {user.name?.charAt(0).toUpperCase()}
             </div>
-            <h1 className="profile__title">Hello, {user?.name}!</h1>
-            <p className="profile__subtitle">You are part of the Sneakers community</p>
-          </header>
+            
+            <div className="profile__info">
+              <h1 className="profile__title">
+                Hello, <span className="text-orange">{user.name}</span>!
+              </h1>
+              <p className="profile__email">{user.email}</p>
+              <p className="profile__badge">
+                Sneakers Community Member
+              </p>
+            </div>
+          </header>          
 
           <footer className="profile__actions">
-            <button className="profile__btn" onClick={handleLogout}>
-              Logout
+            <button 
+              className="profile__logout-btn" 
+              onClick={handleLogout}
+              aria-label="Log out from your account"
+            >
+              Logout Account
             </button>
           </footer>
-        </div>
+        </section>
       </div>
     </main>
   );

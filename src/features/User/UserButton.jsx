@@ -10,7 +10,7 @@ const UserButton = () => {
     <Link 
       to={isLoggedIn ? "/profile" : "/register"} 
       className={`user__btn ${isLoggedIn ? 'user__btn-logged' : ''}`} 
-      aria-label={isLoggedIn ? "Go to profile" : "Register or login"}
+      aria-label={isLoggedIn ? "Go to your profile" : "Register or login"}
     >
       <img src={userIcon} alt="" className="user__btn-icon" aria-hidden="true"/>      
     </Link>

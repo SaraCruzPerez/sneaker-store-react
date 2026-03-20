@@ -36,7 +36,7 @@
     margin: 0 auto 1.2rem;
     font-size: 0.95rem;
     line-height: 1.6;    
-    color: var(--clr-neutral-700);
+    color: var(--clr-neutral-400);
 }
 
 .footer__socials {
@@ -48,6 +48,10 @@
 .footer__social-link {
     color: var(--clr-neutral-200);
     transition: transform 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
 }
 
 .footer__social-link svg {
@@ -56,7 +60,7 @@
 }
 
 .footer__social-link:hover {
-    transform: translateY(-3px);
+    transform: scale(1.4);
 }
 
 
@@ -79,12 +83,13 @@
 .footer__links li {  
     font-size: 0.9rem;
     line-height: 1rem;
-    color: var(--clr-neutral-700);
+    color: var(--clr-neutral-400);
     transition: color 0.3s;
 }
 
 .footer__links a:hover {
-    color: var(--clr-neutral-400);
+    color: var(--clr-neutral-200);
+    font-weight: var(--fw-bold);
 }
 
 /*------- B O T T O M - B A R -------*/
@@ -95,7 +100,7 @@
     padding-top: 1.5rem;
     font-size: 0.8rem;
     text-align: center;
-    color: var(--clr-neutral-700);
+    color: var(--clr-neutral-400);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
