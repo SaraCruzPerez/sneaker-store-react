@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import './OrderSuccess.css'
 import checkIcon from '../../../assets/icons/icon-check.svg'
 
 const OrderSuccess = () => {
+  const navigate = useNavigate();
 
   return (
     <div className="checkout-success" aria-live="polite">

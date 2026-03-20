@@ -9,7 +9,6 @@ const WishlistItem = ({ product, onRemove }) => {
 
   const handleRemove = () => {
     onRemove(product);
-    showNotification("Removed", "remove");
   };
 
   return (

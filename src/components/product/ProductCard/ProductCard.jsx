@@ -31,15 +31,15 @@ const ProductCard = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
 
+    const willBeFavorite = !favorite; 
+    
     toggleWishlist(product);
     setIsHoveredWish(false);
 
-    const willBeFavorite = !favorite;
-    showNotification( 
-      willBeFavorite ? "Saved" : "Removed", 
-      willBeFavorite ? "add" : "remove"
-    );
-  };
+    if (willBeFavorite) {
+      showNotification("Saved", "add");
+      }
+    };
 
   const handleToggleSelector = (e) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ const ProductCard = ({ product }) => {
     e.stopPropagation();
     addToCart(product, 1, size);
     setShowSizeSelector(false);
-    showNotification("Added to cart", "add");
+    showNotification("Added", "add");
   };
 
   return (

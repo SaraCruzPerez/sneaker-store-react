@@ -17,12 +17,11 @@ const ProductInfo = ({ product, onAddToCart, isFavorite, onWishlistToggle }) => 
       return;
     }
     onAddToCart(product, quantity, selectedSize);
-    showNotification("Added to Cart", "add");
+    showNotification("Added", "add");
   };
 
   const handleToggleWishlist = () => {
     onWishlistToggle();
-    showNotification(!isFavorite ? "Wishlist" : "Removed", !isFavorite ? "add" : "remove");
   };
 
   const hasDiscount = product.discount > 0;
@@ -48,7 +47,7 @@ const ProductInfo = ({ product, onAddToCart, isFavorite, onWishlistToggle }) => 
       <p className="info__description">{product.description}</p>
 
       <div className="info__size-container">
-        <p className="info__label">Select Size</p>
+        <p className="info__label" id="size-label">Select Size</p> 
         <div className="info__size-list" role="group" aria-labelledby="size-label">
           {product.sizes.map((size) => (
             <button 

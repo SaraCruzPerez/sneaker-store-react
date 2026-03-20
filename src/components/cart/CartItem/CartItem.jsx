@@ -9,7 +9,6 @@ const CartItem = ({ item, onRemove }) => {
 
   const handleRemove = () => {
     onRemove(item.id, item.size);
-    showNotification("Removed", "remove");
   };
 
   return (
