@@ -1,6 +1,6 @@
 # Sneaker e-Commerce – Checkout & Experience
 
-Este es un proyecto de e-commerce centrado en la experiencia de usuario durante el proceso de compra (Checkout), desarrollado con **React**. El objetivo principal fue crear un flujo de compra fluido y totalmente funcional, desde el carrito hasta la confirmación del pedido.
+Proyecto de e-commerce desarrollado con **React**, enfocado en optimizar la experiencia de usuario (UX) y la accesibilidad en flujos de compra complejos. El objetivo principal fue crear un sistema fluido y funcional, desde la gestión de productos hasta la confirmación del pedido.
 
 <br />
 
@@ -27,10 +27,11 @@ Este es un proyecto de e-commerce centrado en la experiencia de usuario durante 
 
 ##  Tecnologías utilizadas
 
-* **React** (Hooks, Context API para la gestión del carrito)
-* **React Router DOM** (Navegación entre pasos)
-* **CSS3** (Arquitectura BEM, Grid, Flexbox y animaciones personalizadas)
-* **JavaScript ES6+**
+* **React (Hooks & Context API):** Gestión del estado global para Cart, Wishlist y Notificaciones.
+* **React Router DOM:** Navegación instantánea entre vistas mediante arquitectura SPA.
+* **Leaflet & OpenStreetMap:** Integración de mapas para la geolocalización de tiendas.
+* **JavaScript ES6+:** Lógica de filtrado, manipulación de JSON y validación de formularios.
+* **CSS3 (Metodología BEM):** Diseño responsive con Grid, Flexbox y animaciones.
 
 <br />
 
@@ -38,11 +39,12 @@ Este es un proyecto de e-commerce centrado en la experiencia de usuario durante 
 
 ##  Características principales
 
-* **Carrito de compras:** Gestión global del estado (añadir, eliminar y calcular totales en tiempo real).
-* **Checkout por pasos (Multi-step Form):** Separación lógica de información de envío y método de pago para mejorar la conversión.
-* **Validación de formularios:** Implementación de validaciones personalizadas con feedback visual inmediato para el usuario.
+* **Cart & Wishlist:** Gestión global (añadir, eliminar y calcular totales en tiempo real).
+* **Checkout por pasos:** Formulario multi-step para mejorar la conversión del usuario.
+* **Validación de formularios:** Implementación de validaciones personalizadas con feedback visual inmediato.
 * **Diseño Responsive:** Layout adaptado para móvil y escritorio mediante CSS Grid y Media Queries.
-* **Empty States & Success:** Gestión de estados vacíos del carrito y pantalla de confirmación con limpieza automática del estado.
+* **Accesibilidad & UX:** Uso de atributos ARIA y estándares de autocompletado.
+* **Empty States & Success:** Gestión de estados vacíos y limpieza automática del Cart tras la compra.
 
 <br />
 
@@ -50,14 +52,14 @@ Este es un proyecto de e-commerce centrado en la experiencia de usuario durante 
 
 ##  Desafíos y Aprendizajes
 
-Este proyecto representa mi primer gran reto como desarrolladora Frontend. Construirlo de forma autodidacta me permitió ser resolutiva y profundizar en la arquitectura de aplicaciones modernas:
+Este proyecto representa mi primer gran reto como desarrolladora Frontend. Construirlo de forma autodidacta me ha permitido profundizar en la arquitectura de aplicaciones modernas:
 
-* **Arquitectura de Componentes:** División de la interfaz en piezas reutilizables (Inputs, Cards, Steps), facilitando el mantenimiento y la escalabilidad del código.
-* **Gestión de Estados Complejos:** Implementación de Context API para asegurar la coherencia de la información en toda la aplicación.
-* **Resolución de Problemas:** Aprendí a investigar errores técnicos y persistir hasta encontrar la solución óptima, mejorando mi capacidad de debugging.
-* **Lógica de Conexión:** Sincronización de flujos complejos (Carrito -> Checkout -> Success) manteniendo el estado global actualizado en cada paso.
-* **Arquitectura CSS:** Uso estricto de la metodología BEM para mantener un código CSS limpio, escalable y profesional.
-* **Validación de datos:** Implementé lógica de JavaScript puro para manejar formularios sin librerías externas, ganando control total sobre el flujo de datos.
+* **Arquitectura de Componentes:** Aprendí a dividir la interfaz (Inputs, Cards, Steps) para evitar duplicados y facilitar el mantenimiento.
+* **Gestión de Estados:** Mi reto fue usar Context API para que el Cart no se perdiera al navegar, asegurando una experiencia fluida.
+* **Lógica de Checkout:** Sincronizar el flujo (Envío → Pago → Success) manteniendo la validación de datos en cada punto.
+* **CSS Escalable:** La metodología BEM fue clave para evitar un archivo CSS inmanejable y mejorar la organización.
+* **JS Puro:** Decidí validar los formularios con JavaScript nativo para entender el flujo de datos real.
+* **Resolución de Problemas:** Aprendí que investigar errores técnicos es parte del proceso y me ha hecho mucho más resolutiva.
 
 <br />
 
