@@ -80,8 +80,15 @@
     gap: 0.8rem;
 }
 
+.footer__contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
 .footer__links li {  
     font-size: 0.9rem;
+    font-style:normal;
     line-height: 1rem;
     color: var(--clr-neutral-400);
     transition: color 0.3s;

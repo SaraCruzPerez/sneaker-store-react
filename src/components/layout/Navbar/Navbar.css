@@ -126,11 +126,13 @@
 
     /*---  H O V E R - E F F E C T S ---*/
         
-    .nav__item:hover {
+    .nav__item:hover, 
+    .nav__link.active {
         color: var(--clr-neutral-900);
     }
 
-    .nav__item:hover::after {
+    .nav__item:hover::after,
+    .nav__link.active::after {
         content:"";
         position: absolute;
         bottom: -0.5rem;
@@ -138,5 +140,6 @@
         width: 100%;
         height: 4px;
         background-color: var(--clr-primary);
-    }    
+    }  
+    
 }

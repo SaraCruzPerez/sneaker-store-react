@@ -60,11 +60,9 @@ ul, ol {
 /* ------- D E S I G N - T O K E N S ------- */
 
 :root {
-    /* Primary Colors */
     --clr-primary: hsl(26, 100%, 55%);
     --clr-primary-light: hsl(24, 100%, 98%);
 
-    /* Neutral Colors */
     --clr-neutral-900: hsl(220, 13%, 13%); 
     --clr-neutral-700: hsl(219, 9%, 35%);  
     --clr-neutral-400: hsl(220, 14%, 75%); 
@@ -74,12 +72,10 @@ ul, ol {
     --clr-white: hsl(0, 0%, 100%);
     --clr-black: hsl(0, 0%, 0%);
 
-    /* Typography */
     --ff-main: 'Kumbh Sans', sans-serif;
     --fw-reg: 400;
     --fw-bold: 700;
     
-    /* Layout */
     --max-width: 1110px;
 }
 

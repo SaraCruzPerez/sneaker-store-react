@@ -2,7 +2,7 @@
 
 .wish-item {
     display: grid;
-    grid-template-columns: 1fr auto; 
+    grid-template-columns: 1fr 0.15fr; 
     gap: 1rem;
     align-items: center; 
     padding: 1.5rem 0;
@@ -47,11 +47,11 @@
     font-weight: var(--fw-bold);
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: var(--clr-neutral-700);
+    color: var(--clr-neutral-400);
 }
 
 .wish-item__name {
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     font-weight: var(--fw-reg);
     color: var(--clr-neutral-900);
     white-space: nowrap;
@@ -80,7 +80,7 @@
 @media screen and (min-width: 768px) {
     .wish-item {
         display: grid;
-        grid-template-columns: 2.6fr 0.8fr 0.8fr 1.5fr;
+        grid-template-columns: 2.2fr 0.8fr 0.8fr 1.5fr;
         gap: 2rem;
         align-items: center; 
         padding: 1.5rem 0;
