@@ -6,7 +6,7 @@ interface NotificationContextType {
   showNotification: (message: string, action?: NotificationAction) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 interface NotificationProviderProps {
   children: ReactNode;

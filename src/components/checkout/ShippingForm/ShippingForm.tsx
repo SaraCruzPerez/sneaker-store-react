@@ -10,18 +10,17 @@ interface ShippingFormProps {
   onNext: () => void;
 }
 
-const ShippingForm: React.FC<ShippingFormProps> = ({ 
-  formData, 
-  setFormData, 
-  errors, 
-  setErrors, 
-  onNext 
+const ShippingForm: React.FC<ShippingFormProps> = ({
+  formData,
+  setFormData,
+  errors,
+  setErrors,
+  onNext,
 }) => {
-  
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     if (errors[e.target.name as keyof ShippingErrors]) {
-      setErrors({ ...errors, [e.target.name]: '' });
+      setErrors({ ...errors, [e.target.name]: "" });
     }
   };
 
@@ -33,7 +32,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
     if (!formData.lastName.trim()) tempErrors.lastName = "Required";
     if (!emailRegex.test(formData.email)) tempErrors.email = "Invalid email";
     if (!formData.address.trim()) tempErrors.address = "Address required";
-    if (!formData.city.trim()) tempErrors.city = "Required";   
+    if (!formData.city.trim()) tempErrors.city = "Required";
     if (!/^\d{5}$/.test(formData.zip)) tempErrors.zip = "Required";
 
     setErrors(tempErrors);
@@ -49,122 +48,160 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
     <section className="checkout-step">
       <h2 className="checkout-step__title">Shipping Details</h2>
 
-      <form onSubmit={handleSubmit} className="checkout-form" noValidate >  
+      <form onSubmit={handleSubmit} className="checkout-form" noValidate>
         <div className="checkout-form__row">
           <div className="checkout-form__group">
-            <label htmlFor="name" className="checkout-form__label">First Name</label>
-            <input 
+            <label htmlFor="name" className="checkout-form__label">
+              First Name
+            </label>
+            <input
               id="name"
-              name="name" 
-              type="text" 
-              placeholder="Sara" 
-              value={formData.name} 
+              name="name"
+              type="text"
+              placeholder="Sara"
+              value={formData.name}
               onChange={handleChange}
               autoComplete="name"
-              className={errors.name ? 'is-invalid' : ''}
+              className={errors.name ? "is-invalid" : ""}
               aria-invalid={errors.name ? "true" : "false"}
               aria-describedby={errors.name ? "name-error" : undefined}
               required
             />
-            {errors.name && <span id="name-error" className="error-msg" role="alert">{errors.name}</span>}
+            {errors.name && (
+              <span id="name-error" className="error-msg" role="alert">
+                {errors.name}
+              </span>
+            )}
           </div>
 
           <div className="checkout-form__group">
-            <label htmlFor="lastName" className="checkout-form__label">Last Name</label>
-            <input 
+            <label htmlFor="lastName" className="checkout-form__label">
+              Last Name
+            </label>
+            <input
               id="lastName"
-              name="lastName" 
-              type="text" 
-              placeholder="Cruz" 
-              value={formData.lastName} 
+              name="lastName"
+              type="text"
+              placeholder="Cruz"
+              value={formData.lastName}
               onChange={handleChange}
               autoComplete="family-name"
-              className={errors.lastName ? 'is-invalid' : ''}
+              className={errors.lastName ? "is-invalid" : ""}
               aria-invalid={errors.lastName ? "true" : "false"}
               aria-describedby={errors.lastName ? "lastName-error" : undefined}
               required
             />
-            {errors.lastName && <span id="lastName-error" className="error-msg" role="alert">{errors.lastName}</span>}
+            {errors.lastName && (
+              <span id="lastName-error" className="error-msg" role="alert">
+                {errors.lastName}
+              </span>
+            )}
           </div>
         </div>
 
         <div className="checkout-form__group">
-          <label htmlFor="email" className="checkout-form__label">Email Address</label>
-          <input 
+          <label htmlFor="email" className="checkout-form__label">
+            Email Address
+          </label>
+          <input
             id="email"
-            name="email" 
+            name="email"
             autoComplete="email"
-            type="email" 
-            placeholder="sara@example.com" 
-            value={formData.email} 
+            type="email"
+            placeholder="sara@example.com"
+            value={formData.email}
             onChange={handleChange}
-            className={errors.email ? 'is-invalid' : ''}
+            className={errors.email ? "is-invalid" : ""}
             aria-invalid={errors.email ? "true" : "false"}
             aria-describedby={errors.email ? "email-error" : undefined}
             required
           />
-          {errors.email && <span id="email-error" className="error-msg" role="alert">{errors.email}</span>}
+          {errors.email && (
+            <span id="email-error" className="error-msg" role="alert">
+              {errors.email}
+            </span>
+          )}
         </div>
 
         <div className="checkout-form__group">
-          <label htmlFor="address" className="checkout-form__label">Shipping Address</label>
-          <input 
+          <label htmlFor="address" className="checkout-form__label">
+            Shipping Address
+          </label>
+          <input
             id="address"
-            name="address" 
-            type="text" 
-            placeholder="Plaza del 2 de Mayo" 
-            value={formData.address} 
+            name="address"
+            type="text"
+            placeholder="Plaza del 2 de Mayo"
+            value={formData.address}
             onChange={handleChange}
             autoComplete="street-address"
-            className={errors.address ? 'is-invalid' : ''}
+            className={errors.address ? "is-invalid" : ""}
             aria-invalid={errors.address ? "true" : "false"}
             aria-describedby={errors.address ? "address-error" : undefined}
             required
           />
-          {errors.address && <span id="address-error" className="error-msg" role="alert">{errors.address}</span>}
+          {errors.address && (
+            <span id="address-error" className="error-msg" role="alert">
+              {errors.address}
+            </span>
+          )}
         </div>
 
         <div className="checkout-form__row">
           <div className="checkout-form__group">
-            <label htmlFor="city" className="checkout-form__label">City</label>
-            <input 
+            <label htmlFor="city" className="checkout-form__label">
+              City
+            </label>
+            <input
               id="city"
-              name="city" 
-              type="text" 
-              placeholder="Madrid" 
-              value={formData.city} 
+              name="city"
+              type="text"
+              placeholder="Madrid"
+              value={formData.city}
               onChange={handleChange}
               autoComplete="address-level2"
-              className={errors.city ? 'is-invalid' : ''}
+              className={errors.city ? "is-invalid" : ""}
               aria-invalid={errors.city ? "true" : "false"}
               aria-describedby={errors.city ? "city-error" : undefined}
               required
             />
-            {errors.city && <span id="city-error" className="error-msg" role="alert">{errors.city}</span>}
+            {errors.city && (
+              <span id="city-error" className="error-msg" role="alert">
+                {errors.city}
+              </span>
+            )}
           </div>
 
           <div className="checkout-form__group">
-            <label htmlFor="zip" className="checkout-form__label">Zip Code</label>
-            <input 
+            <label htmlFor="zip" className="checkout-form__label">
+              Zip Code
+            </label>
+            <input
               id="zip"
-              name="zip" 
-              type="text" 
-              placeholder="28004" 
+              name="zip"
+              type="text"
+              placeholder="28004"
               maxLength={5}
-              value={formData.zip} 
+              value={formData.zip}
               onChange={handleChange}
               autoComplete="postal-code"
-              className={errors.zip ? 'is-invalid' : ''}
+              className={errors.zip ? "is-invalid" : ""}
               aria-invalid={errors.zip ? "true" : "false"}
               aria-describedby={errors.zip ? "zip-error" : undefined}
               required
             />
-            {errors.zip && <span id="zip-error" className="error-msg" role="alert">{errors.zip}</span>}
+            {errors.zip && (
+              <span id="zip-error" className="error-msg" role="alert">
+                {errors.zip}
+              </span>
+            )}
           </div>
         </div>
 
         <div className="checkout-form__actions">
-          <button type="submit" className="checkout-page__btn">Continue to Payment</button>
+          <button type="submit" className="checkout-page__btn">
+            Continue to Payment
+          </button>
         </div>
       </form>
     </section>

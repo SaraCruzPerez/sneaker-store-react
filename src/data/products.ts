@@ -103,7 +103,7 @@ export const products: Product[] = [
     name: "Midnight Stealth Runner",
     description: "Engineered for the night. Features reflective materials and breathable mesh for maximum city comfort.",
     price: 180.00,
-    discount: 0,
+    discount: 15,
     stock: 2, 
     sizes: [36, 37, 38, 39, 40, 41],
     images: {
@@ -131,7 +131,7 @@ export const products: Product[] = [
     name: "Outdoor Nomad Trail",
     description: "Ready for any terrain. Combines the grip of a hiking boot with the lightness of a high-end trainer.",
     price: 165.00,
-    discount: 15,
+    discount: 10,
     stock: 0, 
     sizes: [36, 37, 38, 39, 40, 41],
     images: {
@@ -159,7 +159,7 @@ export const products: Product[] = [
     name: "Arctic Frost Hi-Top",
     description: "Beat the cold in style. Insulated hi-tops with thermal lining and waterproof leather for harsh winters.",
     price: 195.00,
-    discount: 10,
+    discount: 0,
     stock: 5,
     sizes: [36, 37, 38, 39, 40, 41],
     images: {
@@ -173,7 +173,7 @@ export const products: Product[] = [
     name: "Classic Heritage Leather",
     description: "A timeless silhouette reborn. Handcrafted with premium Italian leather for your everyday luxury rotation.",
     price: 275.00,
-    discount: 0,
+    discount: 20,
     stock: 3,
     sizes: [36, 37, 38, 39, 40, 41],
     images: {
@@ -187,7 +187,7 @@ export const products: Product[] = [
     name: "Cloud-Walk Knit",
     description: "The ultimate in comfort. An engineered knit upper provides flexibility, making it our lightest sneaker yet.",
     price: 150.00,
-    discount: 20,
+    discount: 0,
     stock: 12,
     sizes: [36, 37, 38, 39, 40, 41],
     images: {
