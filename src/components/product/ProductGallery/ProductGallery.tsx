@@ -55,7 +55,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images }) => {
             onClick={() => setCurrentIndex(index)}
             aria-label={`View product image ${index + 1}`}
           >
-            <img src={img} alt="" aria-hidden="true" />
+            <img src={img} alt="" className="gallery__thumb-img" />
           </button>
         ))}
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useUser } from "../../context/UserContext.js";
 import { useNavigate } from "react-router-dom";
 import "./Profile.css";
@@ -13,20 +13,20 @@ const Profile: React.FC = () => {
     }
   }, [user, navigate]);
 
-  const handleLogout = (): void => {
+  const handleLogout = useCallback((): void => {
     logout();
     navigate("/"); 
-  };
+  }, [logout, navigate]);
 
   if (!user) return null;
 
   return (
     <main className="profile" id="main-content">
       <div className="profile__container">
-        <section className="profile__card">
+        <article className="profile__card">
           <header className="profile__header">
             <div className="profile__avatar" aria-hidden="true">
-              {user.name?.charAt(0).toUpperCase()}
+              {user.name?.charAt(0).toUpperCase() || "U"}
             </div>
             
             <div className="profile__info">
@@ -40,16 +40,17 @@ const Profile: React.FC = () => {
             </div>
           </header>          
 
-          <footer className="profile__actions">
+          <div className="profile__actions">
             <button 
+              type="button"
               className="profile__logout-btn" 
               onClick={handleLogout}
               aria-label="Log out from your account"
             >
               Logout Account
             </button>
-          </footer>
-        </section>
+          </div>
+        </article>
       </div>
     </main>
   );

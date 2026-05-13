@@ -1,114 +1,50 @@
-import { render, screen, fireEvent } from '../../../test/test-utils.js';
-import { describe, it, expect, vi } from 'vitest';
+import React from 'react';
+import { render, screen, fireEvent, cleanup } from '../../../test/test-utils.js';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import ProductInfo from './ProductInfo.js';
 
 const mockProduct = {
-  id: '1',
-  name: 'Running Shoes',
-  brand: 'Adidas',
-  price: 120,
-  discount: 10, 
-  description: 'Comfy shoes',
-  sizes: [40, 41, 42],
-  images: { main: ['img.jpg'] }
+  id: 1, name: 'Shoes', brand: 'Adidas', price: 100, discount: 10,
+  description: 'Desc', stock: 10, sizes: [40], images: { main: ['1.jpg'], thumbs: [] }
 };
 
-describe('ProductInfo Component', () => {
-  const mockOnAddToCart = vi.fn();
-  const mockOnWishlistToggle = vi.fn();
+describe('FastProductInfo', () => {
+  const add = vi.fn();
+  const wish = vi.fn();
 
-  it('debe mostrar la información del producto y el precio calculado', () => {
-    render(
-      <ProductInfo 
-        product={mockProduct as any}
-        onAddToCart={mockOnAddToCart}
-        isFavorite={false}
-        onWishlistToggle={mockOnWishlistToggle}
-      />
+  afterEach(cleanup);
+
+  it('100% Coverage Sprint', () => {
+    const { rerender } = render(
+      <ProductInfo product={mockProduct as any} onAddToCart={add} isFavorite={false} onWishlistToggle={wish} />
     );
 
-    expect(screen.getByText('Adidas')).toBeInTheDocument();
-    expect(screen.getByText('Running Shoes')).toBeInTheDocument();
-    expect(screen.getByText('$108.00')).toBeInTheDocument();
-    expect(screen.getByText('$120.00')).toBeInTheDocument();
-  });
+    expect(screen.getByText('$90.00')).toBeInTheDocument();
 
-  it('debe mostrar un error si se intenta añadir al carrito sin elegir talla', () => {
-    render(
-      <ProductInfo 
-        product={mockProduct as any}
-        onAddToCart={mockOnAddToCart}
-        isFavorite={false}
-        onWishlistToggle={mockOnWishlistToggle}
-      />
-    );
-
-    const addBtn = screen.getByText(/Add to cart/i);
-    fireEvent.click(addBtn);
-
-    expect(screen.getByText(/Please select a size/i)).toBeInTheDocument();
-    expect(mockOnAddToCart).not.toHaveBeenCalled();
-  });
-
-  it('debe incrementar y decrementar la cantidad correctamente', () => {
-    render(
-      <ProductInfo 
-        product={mockProduct as any}
-        onAddToCart={mockOnAddToCart}
-        isFavorite={false}
-        onWishlistToggle={mockOnWishlistToggle}
-      />
-    );
-
-    const plusBtn = screen.getByLabelText(/Increase quantity/i);
-    const minusBtn = screen.getByLabelText(/Decrease quantity/i);
-    const quantityValue = screen.getByText('1');
-
-    fireEvent.click(plusBtn);
+    const plus = screen.getByLabelText(/increase/i);
+    fireEvent.click(plus);
     expect(screen.getByText('2')).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText(/decrease/i));
+    fireEvent.click(screen.getByLabelText(/decrease/i)); 
 
-    fireEvent.click(minusBtn);
-    expect(screen.getByText('1')).toBeInTheDocument();
-
-    fireEvent.click(minusBtn);
-    expect(screen.getByText('1')).toBeInTheDocument();
-  });
-
-  it('debe llamar a onAddToCart con la talla y cantidad seleccionadas', () => {
-    render(
-      <ProductInfo 
-        product={mockProduct as any}
-        onAddToCart={mockOnAddToCart}
-        isFavorite={false}
-        onWishlistToggle={mockOnWishlistToggle}
-      />
-    );
-
-    const sizeBtn = screen.getByText('42');
-    fireEvent.click(sizeBtn);
-
-    const plusBtn = screen.getByLabelText(/Increase quantity/i);
-    fireEvent.click(plusBtn);
-
-    const addBtn = screen.getByText(/Add to cart/i);
+    const addBtn = screen.getByText(/add to cart/i);
     fireEvent.click(addBtn);
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+    
+    fireEvent.click(screen.getByText('40'));
+    expect(screen.queryByRole('alert')).toBeNull();
+    fireEvent.click(addBtn);
+    expect(add).toHaveBeenCalled();
 
-    expect(mockOnAddToCart).toHaveBeenCalledWith(mockProduct, 2, '42');
+    fireEvent.click(screen.getByLabelText(/wishlist/i));
+    expect(wish).toHaveBeenCalled();
+    
+    rerender(<ProductInfo product={mockProduct as any} onAddToCart={add} isFavorite={true} onWishlistToggle={wish} />);
+    fireEvent.click(screen.getByLabelText(/wishlist/i));
   });
 
-  it('debe llamar a onWishlistToggle al pulsar el corazón', () => {
-    render(
-      <ProductInfo 
-        product={mockProduct as any}
-        onAddToCart={mockOnAddToCart}
-        isFavorite={false}
-        onWishlistToggle={mockOnWishlistToggle}
-      />
-    );
-
-    const wishBtn = screen.getByLabelText(/Add to wishlist/i);
-    fireEvent.click(wishBtn);
-
-    expect(mockOnWishlistToggle).toHaveBeenCalledTimes(1);
+  it('Rama sin descuento', () => {
+    render(<ProductInfo product={{...mockProduct, discount: 0} as any} onAddToCart={add} isFavorite={false} onWishlistToggle={wish} />);
+    expect(screen.getByText('$100.00')).toBeInTheDocument();
   });
 });

@@ -58,7 +58,7 @@ describe("Product Page Integration Full Coverage", () => {
     ).toBeInTheDocument();
   });
 
-  it('debe cubrir la rama "id || 0" cuando el id no existe (Línea 19 en amarillo)', () => {
+  it('debe cubrir la rama "id || 0" cuando el id no existe', () => {
     renderProductPage("/product-empty");
     expect(screen.getByText(/Oops! You're off-track/i)).toBeInTheDocument();
   });

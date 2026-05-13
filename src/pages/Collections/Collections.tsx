@@ -8,25 +8,21 @@ const Collections: React.FC = () => {
   return (
     <main className="collections">
       <div className="collections__container">
-        <h2 className="collections__title">
+        <h1 className="collections__title">
           Our <span className="collections__title-orange">Collection</span>
-        </h2>
+        </h1>
         
         <p className="collections__subtitle">
           Discover our latest drops and exclusive designs.
         </p>
         
-        <div 
-          className="collections__grid" 
-          role="list" 
-          aria-label="Product sneaker collection"
-        >
+        <ul className="collections__grid" role="list">
           {products.map((item: Product) => (
-            <div key={item.id} role="listitem">
+            <li key={item.id} role="listitem">
               <ProductCard product={item} />
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </main>
   );

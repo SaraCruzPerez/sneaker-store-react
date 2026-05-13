@@ -7,7 +7,7 @@ const OrderSuccess: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="checkout-success" role="main" aria-live="polite">
+    <main className="checkout-success" aria-live="polite">
       <div className="checkout-success__container">
         <div className="checkout-success__icon">
           <img src={checkIcon} alt="" aria-hidden="true" />
@@ -29,7 +29,7 @@ const OrderSuccess: React.FC = () => {
           Continue Shopping
         </button>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -73,7 +73,7 @@ describe("Checkout Page Full Coverage", () => {
     expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
-  it("debe permitir volver al paso anterior (Cubre líneas 38-39)", async () => {
+  it("debe permitir volver al paso anterior", async () => {
     render(
       <MemoryRouter>
         <Checkout />

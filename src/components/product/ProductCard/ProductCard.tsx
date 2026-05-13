@@ -42,6 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     if (showSizeSelector) {
       document.addEventListener("mousedown", handleClickOutside);
+      firstSizeRef.current?.focus();
     }
 
     return () => {
@@ -65,18 +66,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleToggleSelector = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    const nextState = !showSizeSelector;
-    setShowSizeSelector(nextState);
-
-    if (nextState) {
-      setTimeout(() => {
-        firstSizeRef.current?.focus();
-      }, 400);
-    }
+    setShowSizeSelector(!showSizeSelector);
   };
 
-  const handleSelectSize = (e: React.MouseEvent, size: string) => {
+  const handleSelectSize = (e: React.MouseEvent, size: string | number) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -127,7 +120,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   key={size}
                   type="button"
                   ref={index === 0 ? firstSizeRef : null}
-                  onClick={(e) => handleSelectSize(e, String(size))}
+                  onClick={(e) => handleSelectSize(e, size)}
                   className="product__size-option"
                   aria-label={`Select size ${size}`}
                   tabIndex={showSizeSelector ? 0 : -1}

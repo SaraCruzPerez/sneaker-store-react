@@ -1,40 +1,56 @@
-import { render, screen, fireEvent } from '../../../test/test-utils.js';
-import { describe, it, expect, vi } from 'vitest';
+import React from 'react';
+import { render, screen, fireEvent, cleanup } from '../../../test/test-utils.js';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import OrderSuccess from './OrderSuccess.js';
 import * as router from 'react-router-dom';
 
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {
     ...actual,
     useNavigate: vi.fn(),
   };
 });
 
-describe('OrderSuccess Component', () => {
-  it('debe renderizar el mensaje de éxito correctamente', () => {
-    render(<OrderSuccess />);
+describe('OrderSuccess Component Full Coverage', () => {
+  const navigateMock = vi.fn();
 
-    expect(screen.getByRole('heading', { name: /Order Confirmed/i })).toBeInTheDocument();    
-    expect(screen.getByText(/Thank you for your purchase/i)).toBeInTheDocument();
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock);
   });
 
-  it('debe navegar a la página de colecciones al pulsar el botón', () => {
-    const navigateMock = vi.fn();
-    vi.mocked(router.useNavigate).mockReturnValue(navigateMock);
+  afterEach(() => {
+    cleanup();
+  });
 
+  it('debe renderizar todos los elementos visuales incluyendo el icono', () => {
     render(<OrderSuccess />);
 
-    const button = screen.getByRole('button', { name: /Continue Shopping/i });
+    const icon = screen.getByRole('presentation', { hidden: true }); 
+    expect(icon).toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { level: 2, name: /order confirmed/i })).toBeInTheDocument();    
+    expect(screen.getByText(/thank you for your purchase/i)).toBeInTheDocument();
+  });
+
+  it('debe navegar a Collections al hacer click en el botón', () => {
+    render(<OrderSuccess />);
+
+    const button = screen.getByRole('button', { name: /continue shopping/i });
+    
     fireEvent.click(button);
 
+    expect(navigateMock).toHaveBeenCalledTimes(1);
     expect(navigateMock).toHaveBeenCalledWith('/collections');
   });
 
-  it('debe tener los atributos de accesibilidad correctos', () => {
+  it('debe cumplir con los requisitos de accesibilidad', () => {
     render(<OrderSuccess />);
     
-    const container = screen.getByRole('main');
-    expect(container).toHaveAttribute('aria-live', 'polite');
+    const mainElement = screen.getByRole('main');
+    expect(mainElement).toHaveAttribute('aria-live', 'polite');
+    
+    expect(mainElement).toHaveClass('checkout-success');
   });
 });

@@ -1,29 +1,37 @@
 import React, { type ReactElement, type ReactNode } from "react";
 import { render, type RenderOptions } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import { CartProvider } from "../context/CartContext.js";
-import { WishlistProvider } from "../context/WishlistContext.js";
-import { UserProvider } from "../context/UserContext.js";
-import { NotificationProvider } from "../context/NotificationContext.js";
+import { MemoryRouter } from "react-router-dom"; 
+import { CartProvider } from "../context/CartContext";
+import { WishlistProvider } from "../context/WishlistContext";
+import { UserProvider } from "../context/UserContext";
+import { NotificationProvider } from "../context/NotificationContext";
+import userEvent from "@testing-library/user-event";
 
 const AllTheProviders = ({ children }: { children: ReactNode }) => {
   return (
-    <BrowserRouter>
-      <NotificationProvider>
-        <UserProvider>
+    <MemoryRouter>
+      <UserProvider> 
+        <NotificationProvider>
           <WishlistProvider>
-            <CartProvider>{children}</CartProvider>
+            <CartProvider>
+              {children}
+            </CartProvider>
           </WishlistProvider>
-        </UserProvider>
-      </NotificationProvider>
-    </BrowserRouter>
+        </NotificationProvider>
+      </UserProvider>
+    </MemoryRouter>
   );
 };
 
 const customRender = (
   ui: ReactElement,
   options?: Omit<RenderOptions, "wrapper">,
-) => render(ui, { wrapper: AllTheProviders, ...options });
+) => {
+  return render(ui, { 
+    wrapper: AllTheProviders, 
+    ...options 
+  });
+};
 
 export * from "@testing-library/react";
-export { customRender as render };
+export { customRender as render, userEvent };

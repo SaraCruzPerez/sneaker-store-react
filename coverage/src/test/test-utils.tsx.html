@@ -92,7 +92,14 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -100,7 +107,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">83x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -108,56 +135,50 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">78x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { type ReactElement, type ReactNode } from "react";
 import { render, type RenderOptions } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import { CartProvider } from "../context/CartContext.js";
-import { WishlistProvider } from "../context/WishlistContext.js";
-import { UserProvider } from "../context/UserContext.js";
-import { NotificationProvider } from "../context/NotificationContext.js";
+import { MemoryRouter } from "react-router-dom"; 
+import { CartProvider } from "../context/CartContext";
+import { WishlistProvider } from "../context/WishlistContext";
+import { UserProvider } from "../context/UserContext";
+import { NotificationProvider } from "../context/NotificationContext";
+import userEvent from "@testing-library/user-event";
 &nbsp;
 const AllTheProviders = ({ children }: { children: ReactNode }) =&gt; {
   return (
-    &lt;BrowserRouter&gt;
-      &lt;NotificationProvider&gt;
-        &lt;UserProvider&gt;
+    &lt;MemoryRouter&gt;
+      &lt;UserProvider&gt; 
+        &lt;NotificationProvider&gt;
           &lt;WishlistProvider&gt;
-            &lt;CartProvider&gt;{children}&lt;/CartProvider&gt;
+            &lt;CartProvider&gt;
+              {children}
+            &lt;/CartProvider&gt;
           &lt;/WishlistProvider&gt;
-        &lt;/UserProvider&gt;
-      &lt;/NotificationProvider&gt;
-    &lt;/BrowserRouter&gt;
+        &lt;/NotificationProvider&gt;
+      &lt;/UserProvider&gt;
+    &lt;/MemoryRouter&gt;
   );
 };
 &nbsp;
 const customRender = (
   ui: ReactElement,
   options?: Omit&lt;RenderOptions, "wrapper"&gt;,
-) =&gt; render(ui, { wrapper: AllTheProviders, ...options });
+) =&gt; {
+  return render(ui, { 
+    wrapper: AllTheProviders, 
+    ...options 
+  });
+};
 &nbsp;
 export * from "@testing-library/react";
-export { customRender as render };
-&nbsp;</pre></td></tr></table></pre>
+export { customRender as render, userEvent };</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-30T14:00:08.167Z
+                at 2026-05-12T18:03:56.268Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -22,15 +22,16 @@ const Wishlist: React.FC = () => {
               </p>
             </header>
 
-            <div className="wishlist__list" role="list">
+            <ul className="wishlist__list" role="list">
               {wishlist.map((product: Product) => (
-                <WishlistItem 
-                  key={product.id} 
-                  product={product} 
-                  onRemove={toggleWishlist} 
-                />
+                <li key={product.id} role="listitem">
+                  <WishlistItem 
+                    product={product} 
+                    onRemove={toggleWishlist} 
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
           </>
         ) : (
           <div className="wishlist__empty" aria-live="polite">

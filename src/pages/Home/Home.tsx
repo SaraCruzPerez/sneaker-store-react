@@ -5,7 +5,7 @@ import "./Home.css";
 
 const Home: React.FC = () => {
   return (
-    <div className="home">
+    <main className="home">
       <section className="hero" aria-label="Introduction">
         <div className="hero__container">
           <h1 className="hero__title">INTO THE FUTURE</h1>
@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 
       <section className="features" aria-label="Our services">
         <div className="features__container">
-          <ul className="features__list" role="list">
+          <ul className="features__list">
             <li className="features__item">
               <div className="features__icon" aria-hidden="true">
                 <Truck size={32} strokeWidth={1.5} />
@@ -47,7 +47,7 @@ const Home: React.FC = () => {
           </ul>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 

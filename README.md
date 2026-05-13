@@ -62,7 +62,7 @@ Este proyecto prioriza la estabilidad. He implementado una suite de pruebas  con
 - **Unit Testing:** Pruebas unitarias para reducers, hooks personalizados y utilidades de formato.
 
 <div align="center">    
-    <img src="./screenshots/testing.png" width="75%" style="margin: 20px;" alt="Testing Report"> 
+    <img src="./screenshots/testing.webp" width="75%" style="margin: 20px;" alt="Testing Report"> 
 </div>
 
 ---

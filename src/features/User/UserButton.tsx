@@ -7,11 +7,18 @@ import "./UserButton.css";
 const UserButton: React.FC = () => {
   const { isLoggedIn, user } = useUser();
 
+  const destination = isLoggedIn ? "/profile" : "/register";
+  
+  const userName = user?.name?.trim();
+  const ariaLabel = isLoggedIn 
+    ? `Go to ${userName ? userName : 'your'} profile` 
+    : "Register or login";
+
   return (
     <Link
-      to={isLoggedIn ? "/profile" : "/register"}
+      to={destination}
       className={`user__btn ${isLoggedIn ? "user__btn-logged" : ""}`}
-      aria-label={isLoggedIn ? `Go to ${user?.name || 'your'} profile` : "Register or login"}
+      aria-label={ariaLabel}
     >
       <img
         src={userIcon}

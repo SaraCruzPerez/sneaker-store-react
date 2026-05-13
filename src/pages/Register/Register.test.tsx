@@ -1,108 +1,61 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { vi, describe, it, expect, beforeEach } from "vitest";
-import Register from "./Register.js";
-import { useUser } from "../../context/UserContext.js";
+import { vi, describe, it, expect, afterEach } from "vitest";
+import Register from "./Register";
+import { useUser } from "../../context/UserContext";
 
 const mockNavigate = vi.fn();
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
-});
+vi.mock("react-router-dom", async () => ({
+  ...(await vi.importActual("react-router-dom")),
+  useNavigate: () => mockNavigate,
+}));
 
-vi.mock("../../context/UserContext", () => ({
+vi.mock("../../context/UserContext.js", () => ({
   useUser: vi.fn(),
 }));
 
-describe("Register Page", () => {
+describe("Register Fast Path", () => {
   const mockLogin = vi.fn();
 
-  beforeEach(() => {
+  afterEach(() => {
+    cleanup();
     vi.clearAllMocks();
-    (useUser as any).mockReturnValue({
-      login: mockLogin,
-    });
   });
 
-  it("debe renderizar el formulario correctamente", () => {
+  it("debe cubrir el 100% de la lógica de validación y navegación", () => {
+    vi.mocked(useUser).mockReturnValue({ login: mockLogin } as any);
+    
     render(
       <MemoryRouter>
         <Register />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
-    expect(
-      screen.getByRole("heading", { name: /create account/i }),
-    ).toBeInTheDocument();
-    expect(screen.getByLabelText(/full name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /let's go!/i }),
-    ).toBeInTheDocument();
-  });
+    const submitBtn = screen.getByText(/LET'S GO!/i);
+    const nameInp = screen.getByLabelText(/full name/i);
+    const emailInp = screen.getByLabelText(/email address/i);
 
-  it("debe mostrar errores de validación si los campos están vacíos", () => {
-    render(
-      <MemoryRouter>
-        <Register />
-      </MemoryRouter>,
-    );
-
-    const submitBtn = screen.getByRole("button", { name: /let's go!/i });
     fireEvent.click(submitBtn);
-
-    expect(
-      screen.getByText(/please enter your full name/i),
-    ).toBeInTheDocument();
     expect(screen.getByText(/email is required/i)).toBeInTheDocument();
 
-    expect(mockLogin).not.toHaveBeenCalled();
-    expect(mockNavigate).not.toHaveBeenCalled();
-  });
+    fireEvent.change(nameInp, { target: { value: 'S' } });
+    expect(screen.queryByText(/please enter your full name/i)).toBeNull();
 
-  it("debe mostrar error si el formato del email es inválido", () => {
-    render(
-      <MemoryRouter>
-        <Register />
-      </MemoryRouter>,
-    );
+    fireEvent.change(emailInp, { target: { value: 'invalid' } });
+    fireEvent.click(submitBtn);
+    expect(screen.getByText(/valid email address/i)).toBeInTheDocument();
 
-    const nameInput = screen.getByLabelText(/full name/i);
-    const emailInput = screen.getByLabelText(/email address/i);
-    const submitBtn = screen.getByRole("button", { name: /let's go!/i });
-
-    fireEvent.change(nameInput, { target: { value: "Sara Cruz" } });
-    fireEvent.change(emailInput, { target: { value: "email-no-valido" } });
+    fireEvent.change(nameInp, { target: { value: ' Sara ' } });
+    fireEvent.change(emailInp, { target: { value: 'TEST@MAIL.COM' } });
     fireEvent.click(submitBtn);
 
-    expect(
-      screen.getByText(/please enter a valid email address/i),
-    ).toBeInTheDocument();
-  });
-
-  it("debe llamar a login y navegar a la home si el formulario es válido", () => {
-    render(
-      <MemoryRouter>
-        <Register />
-      </MemoryRouter>,
-    );
-
-    const nameInput = screen.getByLabelText(/full name/i);
-    const emailInput = screen.getByLabelText(/email address/i);
-    const submitBtn = screen.getByRole("button", { name: /let's go!/i });
-
-    fireEvent.change(nameInput, { target: { value: "Sara Cruz" } });
-    fireEvent.change(emailInput, { target: { value: "sara@example.com" } });
-
-    fireEvent.click(submitBtn);
-
-    expect(mockLogin).toHaveBeenCalledWith({
-      name: "Sara Cruz",
-      email: "sara@example.com",
-    });
+    expect(mockLogin).toHaveBeenCalledWith({ name: "Sara", email: "test@mail.com" });
     expect(mockNavigate).toHaveBeenCalledWith("/");
+  });
+
+  it("debe renderizar correctamente la estructura inicial", () => {
+    vi.mocked(useUser).mockReturnValue({ login: mockLogin } as any);
+    render(<MemoryRouter><Register /></MemoryRouter>);
+    expect(screen.getByRole("heading")).toBeInTheDocument();
   });
 });

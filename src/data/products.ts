@@ -94,7 +94,7 @@ export const products: Product[] = [
     sizes: [36, 37, 38, 39, 40, 41],
     images: {
       main: [p1_1, p1_2, p1_3, p1_4],
-      thumbs: [p1_1_th, p1_1_th, p1_3_th, p1_4_th]
+      thumbs: [p1_1_th, p1_2_th, p1_3_th, p1_4_th]
     }
   },
   {

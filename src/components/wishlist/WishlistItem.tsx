@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useNotification } from "../../context/NotificationContext.js";
 import iconDelete from "../../assets/icons/icon-delete.svg";
 import "./WishlistItem.css";
 import type { Product } from "../../types/models.js";
@@ -11,8 +10,6 @@ interface WishlistItemProps {
 }
 
 const WishlistItem: React.FC<WishlistItemProps> = ({ product, onRemove }) => {
-  const { showNotification } = useNotification();
-
   const handleRemove = (): void => {
     onRemove(product);
   };
@@ -50,7 +47,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ product, onRemove }) => {
           className="wish-item__remove" 
           onClick={handleRemove}
           aria-label={`Remove ${product.name} from wishlist`}
-          >
+        >
           <img src={iconDelete} alt="" aria-hidden="true" />
         </button>
         <Link to={`/product/${product.id}`} className="wish-item__view-btn">

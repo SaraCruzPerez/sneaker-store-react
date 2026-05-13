@@ -2,54 +2,47 @@ import React from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import type { PaymentData, PaymentErrors } from "../../../types/models.js";
 
-interface PaymentStepProps {
-  formData: PaymentData;
-  setFormData: (data: PaymentData) => void;
+interface PaymentStepProps<T extends PaymentData> {
+  formData: T;
+  setFormData: React.Dispatch<React.SetStateAction<T>>;
   errors: PaymentErrors;
-  setErrors: (errors: PaymentErrors) => void;
+  setErrors: React.Dispatch<React.SetStateAction<PaymentErrors>>;
   onNext: () => void;
   onBack: () => void;
 }
 
-const PaymentStep: React.FC<PaymentStepProps> = ({
+const PaymentStep = <T extends PaymentData>({
   formData,
   setFormData,
   errors,
   setErrors,
   onNext,
   onBack,
-}) => {
+}: PaymentStepProps<T>) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let { name, value } = e.target;
 
     if (name === "cardNumber") {
-      value = value
-        .replace(/\D/g, "")
-        .replace(/(\d{4})(?=\d)/g, "$1 ")
-        .trim();
+      value = value.replace(/\D/g, "").replace(/(\d{4})(?=\d)/g, "$1 ").trim();
     } else if (name === "expiry") {
       value = value.replace(/\D/g, "");
-      if (value.length > 2)
-        value = value.substring(0, 2) + "/" + value.substring(2, 4);
+      if (value.length > 2) value = value.substring(0, 2) + "/" + value.substring(2, 4);
     } else if (name === "cvc") {
       value = value.replace(/\D/g, "");
     }
 
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    
     if (errors[name as keyof PaymentErrors]) {
-      setErrors({ ...errors, [name]: "" });
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const validate = (): boolean => {
-    let tempErrors: PaymentErrors = {};
-    if (!formData.cardNumber || formData.cardNumber.length < 19)
-      tempErrors.cardNumber = "Incomplete card number";
-    
-    if (!formData.expiry || formData.expiry.length < 5)
-      tempErrors.expiry = "Invalid expiry date";
-    if (!formData.cvc || formData.cvc.length < 3)
-      tempErrors.cvc = "Invalid CVC";
+    const tempErrors: PaymentErrors = {};
+    if (!formData.cardNumber || formData.cardNumber.length < 19) tempErrors.cardNumber = "Incomplete card number";
+    if (!formData.expiry || formData.expiry.length < 5) tempErrors.expiry = "Invalid expiry date";
+    if (!formData.cvc || formData.cvc.length < 3) tempErrors.cvc = "Invalid CVC";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -63,11 +56,9 @@ const PaymentStep: React.FC<PaymentStepProps> = ({
   return (
     <section className="checkout-step">
       <h2 className="checkout-step__title">Payment</h2>
-      <form onSubmit={handleSubmit} className="checkout-form" noValidate>
+      <form onSubmit={handleSubmit} className="checkout-form" noValidate >
         <div className="checkout-form__group">
-          <label htmlFor="cardNumber" className="checkout-form__label">
-            Card Number
-          </label>
+          <label htmlFor="cardNumber" className="checkout-form__label">Card Number</label>
           <input
             id="cardNumber"
             name="cardNumber"
@@ -79,22 +70,16 @@ const PaymentStep: React.FC<PaymentStepProps> = ({
             onChange={handleChange}
             maxLength={19}
             className={errors.cardNumber ? "is-invalid" : ""}
-            aria-invalid={errors.cardNumber ? "true" : "false"}
+            aria-invalid={!!errors.cardNumber}
             aria-describedby={errors.cardNumber ? "card-error" : undefined}
             required
           />
-          {errors.cardNumber && (
-            <span id="card-error" className="error-msg" role="alert">
-              {errors.cardNumber}
-            </span>
-          )}
+          {errors.cardNumber && <span id="card-error" className="error-msg" role="alert">{errors.cardNumber}</span>}
         </div>
 
         <div className="checkout-form__row">
           <div className="checkout-form__group">
-            <label htmlFor="expiry" className="checkout-form__label">
-              Expiry Date
-            </label>
+            <label htmlFor="expiry" className="checkout-form__label">Expiry Date</label>
             <input
               id="expiry"
               name="expiry"
@@ -106,20 +91,14 @@ const PaymentStep: React.FC<PaymentStepProps> = ({
               onChange={handleChange}
               maxLength={5}
               className={errors.expiry ? "is-invalid" : ""}
-              aria-invalid={errors.expiry ? "true" : "false"}
+              aria-invalid={!!errors.expiry}
               aria-describedby={errors.expiry ? "expiry-error" : undefined}
               required
             />
-            {errors.expiry && (
-              <span id="expiry-error" className="error-msg" role="alert">
-                {errors.expiry}
-              </span>
-            )}
+            {errors.expiry && <span id="expiry-error" className="error-msg" role="alert">{errors.expiry}</span>}
           </div>
           <div className="checkout-form__group">
-            <label htmlFor="cvc" className="checkout-form__label">
-              CVC
-            </label>
+            <label htmlFor="cvc" className="checkout-form__label">CVC</label>
             <input
               id="cvc"
               name="cvc"
@@ -131,28 +110,17 @@ const PaymentStep: React.FC<PaymentStepProps> = ({
               onChange={handleChange}
               maxLength={3}
               className={errors.cvc ? "is-invalid" : ""}
-              aria-invalid={errors.cvc ? "true" : "false"}
+              aria-invalid={!!errors.cvc}
               aria-describedby={errors.cvc ? "cvc-error" : undefined}
               required
             />
-            {errors.cvc && (
-              <span id="cvc-error" className="error-msg" role="alert">
-                {errors.cvc}
-              </span>
-            )}
+            {errors.cvc && <span id="cvc-error" className="error-msg" role="alert">{errors.cvc}</span>}
           </div>
         </div>
 
         <div className="checkout-form__actions">
-          <button type="submit" className="checkout-page__btn">
-            Confirm and Pay
-          </button>
-          <button
-            type="button"
-            className="checkout-page__back-link"
-            onClick={onBack}
-            aria-label="Return to shipping information"
-          >
+          <button type="submit" className="checkout-page__btn">Confirm and Pay</button>
+          <button type="button" className="checkout-page__back-link" onClick={onBack} aria-label="Return to shipping information">
             Back to shipping info
           </button>
         </div>

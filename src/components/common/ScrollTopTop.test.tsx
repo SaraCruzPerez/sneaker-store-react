@@ -1,5 +1,6 @@
+import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { MemoryRouter, Routes, Route, Link } from 'react-router-dom';
 import ScrollToTop from './ScrollToTop.js';
 
@@ -9,8 +10,12 @@ describe('ScrollToTop Component', () => {
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('debe llamar a window.scrollTo(0, 0) cuando cambia la ruta', () => {
-    const scrollToSpy = vi.spyOn(window, 'scrollTo');
+    const scrollToSpy = window.scrollTo;
 
     render(
       <MemoryRouter initialEntries={['/']}>
@@ -41,6 +46,6 @@ describe('ScrollToTop Component', () => {
       </MemoryRouter>
     );
 
-    expect(container.firstChild).toBeNull();
+    expect(container).toBeEmptyDOMElement();
   });
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useCart } from "../../context/CartContext.js";
 import { Link } from "react-router-dom";
 import cartIcon from "../../assets/icons/icon-cart.svg";
@@ -7,7 +7,9 @@ import "./CartButton.css";
 const CartButton: React.FC = () => {
   const { cart } = useCart();
 
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const totalItems = useMemo(() => {
+    return cart.reduce((acc, item) => acc + item.quantity, 0);
+  }, [cart]); 
 
   const cartLabel =
     totalItems > 0

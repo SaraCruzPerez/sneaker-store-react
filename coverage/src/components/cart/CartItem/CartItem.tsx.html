@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -117,12 +117,7 @@
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L55'></a><a href='#L55'>55</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -134,18 +129,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -181,26 +173,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
 import { Link } from "react-router-dom";
-import { useNotification } from "../../../context/NotificationContext.js";
 import iconDelete from "../../../assets/icons/icon-delete.svg";
 import "./CartItem.css";
-import type { CartItem as CartItemType } from "../../../types/models.js";
+import type { CartItem as CartItemType } from "../../../types/models";
 &nbsp;
 interface CartItemProps {
   item: CartItemType;
-  onRemove: (id: string | number, size: string) =&gt; void;
+  onRemove: (id: string | number, size: string | number) =&gt; void;
 }
 &nbsp;
 const CartItem: React.FC&lt;CartItemProps&gt; = ({ item, onRemove }) =&gt; {
-  const { showNotification } = useNotification();
-&nbsp;
   const handleRemove = (): void =&gt; {
     onRemove(item.id, item.size);
   };
 &nbsp;
   if (!item) return null;
 &nbsp;
-  const productImage = item.images?.main?.[0] || (item as any).image || (item as any).img;
+  const productImage = item.images?.main?.[0] || item.image || (item as any).img;
 &nbsp;
   return (
     &lt;article className="cart-item"&gt;
@@ -208,8 +197,7 @@ const CartItem: React.FC&lt;CartItemProps&gt; = ({ item, onRemove }) =&gt; {
         &lt;Link to={`/product/${item.id}`} aria-label={`View ${item.name}`}&gt;
           &lt;img 
             src={productImage} 
-            alt="" 
-            aria-hidden="true" 
+            alt={item.name} 
             className="cart-item__img" 
           /&gt;
         &lt;/Link&gt;
@@ -223,15 +211,15 @@ const CartItem: React.FC&lt;CartItemProps&gt; = ({ item, onRemove }) =&gt; {
       &lt;/div&gt;
 &nbsp;
       &lt;div className="cart-item__group"&gt;
-          &lt;p className="cart-item__price"&gt;${(item.finalPrice * item.quantity).toFixed(2)}&lt;/p&gt;
-          &lt;button 
-              type="button"
-              className="cart-item__remove-btn" 
-              onClick={handleRemove}
-              aria-label={`Remove ${item.name} size ${item.size} from cart`}
-              &gt;
-            &lt;img src={iconDelete} alt="" aria-hidden="true" /&gt;
-          &lt;/button&gt;
+        &lt;p className="cart-item__price"&gt;${(item.finalPrice * item.quantity).toFixed(2)}&lt;/p&gt;
+        &lt;button 
+          type="button"
+          className="cart-item__remove-btn" 
+          onClick={handleRemove}
+          aria-label={`Remove ${item.name} size ${item.size} from cart`}
+        &gt;
+          &lt;img src={iconDelete} alt="" aria-hidden="true" /&gt;
+        &lt;/button&gt;
       &lt;/div&gt;
     &lt;/article&gt;
   );
@@ -244,7 +232,7 @@ export default CartItem;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-04-30T14:00:08.167Z
+                at 2026-05-12T18:03:56.268Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

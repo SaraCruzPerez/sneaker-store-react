@@ -1,77 +1,89 @@
-import React, { useState, useEffect } from 'react';
-import { useCart } from '../../context/CartContext.js'; 
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useCart } from "../../context/CartContext.js";
+import { useNavigate } from "react-router-dom";
 
-import ShippingForm from '../../components/checkout/ShippingForm/ShippingForm.js';
-import PaymentStep from '../../components/checkout/PaymentForm/PaymentForm.js';
-import OrderSuccess from '../../components/checkout/OrderSuccess/OrderSuccess.js';
-import './Checkout.css';
+import ShippingForm from "../../components/checkout/ShippingForm/ShippingForm.js";
+import PaymentStep from "../../components/checkout/PaymentForm/PaymentForm.js";
+import OrderSuccess from "../../components/checkout/OrderSuccess/OrderSuccess.js";
+import "./Checkout.css";
 
-import type { ShippingData, PaymentData, ShippingErrors, PaymentErrors } from '../../types/models.js';
+import type {
+  ShippingData,
+  PaymentData,
+  ShippingErrors,
+  PaymentErrors,
+} from "../../types/models.js";
 
 interface CheckoutFormData extends ShippingData, PaymentData {}
 
 const Checkout: React.FC = () => {
-  const { cart, clearCart } = useCart(); 
+  const { cart, clearCart } = useCart();
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
-  
+
   const [formData, setFormData] = useState<CheckoutFormData>({
-    name: '', lastName: '', email: '', address: '', city: '', zip: '',
-    cardNumber: '', expiry: '', cvc: ''
+    name: "",
+    lastName: "",
+    email: "",
+    address: "",
+    city: "",
+    zip: "",
+    cardNumber: "",
+    expiry: "",
+    cvc: "",
   });
-  
-  const [errors, setErrors] = useState<ShippingErrors | PaymentErrors>({});
+
+  const [errors, setErrors] = useState<ShippingErrors & PaymentErrors>({});
 
   useEffect(() => {
     if (cart.length === 0 && step !== 3) {
-      navigate('/');
+      navigate("/");
     }
   }, [cart, step, navigate]);
 
   const nextStep = (): void => {
     setStep(2);
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
   };
-  
+
   const prevStep = (): void => {
     setStep(1);
     window.scrollTo(0, 0);
   };
 
   const finishOrder = (): void => {
-    clearCart(); 
-    setStep(3);  
+    clearCart();
+    setStep(3);
     window.scrollTo(0, 0);
-  }; 
+  };
 
   if (step === 3) return <OrderSuccess />;
 
   return (
-    <div className="checkout-page">
+    <main className="checkout-page" id="checkout-content">
       <div className="checkout-page__container">
-        <main className="checkout-page__main" id="checkout-content">
+        <div className="checkout-page__main">
           {step === 1 ? (
-            <ShippingForm 
-              formData={formData} 
-              setFormData={setFormData as any} 
-              errors={errors as ShippingErrors} 
-              setErrors={setErrors as any}
-              onNext={nextStep} 
+            <ShippingForm
+              formData={formData}
+              setFormData={setFormData}
+              errors={errors}
+              setErrors={setErrors}
+              onNext={nextStep}
             />
           ) : (
-            <PaymentStep 
-              formData={formData} 
-              setFormData={setFormData as any} 
-              errors={errors as PaymentErrors} 
-              setErrors={setErrors as any}
-              onNext={finishOrder} 
+            <PaymentStep
+              formData={formData}
+              setFormData={setFormData}
+              errors={errors}
+              setErrors={setErrors}
+              onNext={finishOrder}
               onBack={prevStep}
             />
           )}
-        </main> 
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 

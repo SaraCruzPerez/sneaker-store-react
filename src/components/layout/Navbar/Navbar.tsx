@@ -6,7 +6,7 @@ import "./Navbar.css";
 interface NavbarProps {
   isOpen: boolean;        
   onClose: () => void;    
-  id?: string;            
+  id?: string;         
 }
 
 interface NavLinkItem {
@@ -14,13 +14,13 @@ interface NavLinkItem {
   path: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ isOpen, onClose, id }) => {
-  const navLinks: NavLinkItem[] = [
-    { name: "Home", path: "/" },
-    { name: "Collections", path: "/collections" },
-    { name: "Stores", path: "/stores" }
-  ];
+const NAV_LINKS: NavLinkItem[] = [
+  { name: "Home", path: "/" },
+  { name: "Collections", path: "/collections" },
+  { name: "Stores", path: "/stores" }
+];
 
+const Navbar: React.FC<NavbarProps> = ({ isOpen, onClose, id }) => {
   return (
     <>      
       {isOpen && (
@@ -42,7 +42,7 @@ const Navbar: React.FC<NavbarProps> = ({ isOpen, onClose, id }) => {
         </button>
 
         <ul className="nav__list">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <li key={link.name} className="nav__item">
               <NavLink 
                 to={link.path} 

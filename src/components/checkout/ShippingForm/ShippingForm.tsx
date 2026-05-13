@@ -2,30 +2,33 @@ import React from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import type { ShippingData, ShippingErrors } from "../../../types/models.js";
 
-interface ShippingFormProps {
-  formData: ShippingData;
-  setFormData: (data: ShippingData) => void;
+interface ShippingFormProps<T extends ShippingData> {
+  formData: T;
+  setFormData: React.Dispatch<React.SetStateAction<T>>;
   errors: ShippingErrors;
-  setErrors: (errors: ShippingErrors) => void;
+  setErrors: React.Dispatch<React.SetStateAction<ShippingErrors>>;
   onNext: () => void;
 }
 
-const ShippingForm: React.FC<ShippingFormProps> = ({
+const ShippingForm = <T extends ShippingData>({
   formData,
   setFormData,
   errors,
   setErrors,
   onNext,
-}) => {
+}: ShippingFormProps<T>) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (errors[e.target.name as keyof ShippingErrors]) {
-      setErrors({ ...errors, [e.target.name]: "" });
+    const { name, value } = e.target;
+    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+    if (errors[name as keyof ShippingErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const validate = (): boolean => {
-    let tempErrors: ShippingErrors = {};
+    const tempErrors: ShippingErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!formData.name.trim()) tempErrors.name = "Required";
@@ -47,13 +50,10 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
   return (
     <section className="checkout-step">
       <h2 className="checkout-step__title">Shipping Details</h2>
-
       <form onSubmit={handleSubmit} className="checkout-form" noValidate>
         <div className="checkout-form__row">
           <div className="checkout-form__group">
-            <label htmlFor="name" className="checkout-form__label">
-              First Name
-            </label>
+            <label htmlFor="name" className="checkout-form__label">First Name</label>
             <input
               id="name"
               name="name"
@@ -63,21 +63,15 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
               onChange={handleChange}
               autoComplete="name"
               className={errors.name ? "is-invalid" : ""}
-              aria-invalid={errors.name ? "true" : "false"}
+              aria-invalid={!!errors.name}
               aria-describedby={errors.name ? "name-error" : undefined}
               required
             />
-            {errors.name && (
-              <span id="name-error" className="error-msg" role="alert">
-                {errors.name}
-              </span>
-            )}
+            {errors.name && <span id="name-error" className="error-msg" role="alert">{errors.name}</span>}
           </div>
 
           <div className="checkout-form__group">
-            <label htmlFor="lastName" className="checkout-form__label">
-              Last Name
-            </label>
+            <label htmlFor="lastName" className="checkout-form__label">Last Name</label>
             <input
               id="lastName"
               name="lastName"
@@ -87,46 +81,34 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
               onChange={handleChange}
               autoComplete="family-name"
               className={errors.lastName ? "is-invalid" : ""}
-              aria-invalid={errors.lastName ? "true" : "false"}
+              aria-invalid={!!errors.lastName}
               aria-describedby={errors.lastName ? "lastName-error" : undefined}
               required
             />
-            {errors.lastName && (
-              <span id="lastName-error" className="error-msg" role="alert">
-                {errors.lastName}
-              </span>
-            )}
+            {errors.lastName && <span id="lastName-error" className="error-msg" role="alert">{errors.lastName}</span>}
           </div>
         </div>
 
         <div className="checkout-form__group">
-          <label htmlFor="email" className="checkout-form__label">
-            Email Address
-          </label>
+          <label htmlFor="email" className="checkout-form__label">Email Address</label>
           <input
             id="email"
             name="email"
-            autoComplete="email"
             type="email"
             placeholder="sara@example.com"
             value={formData.email}
             onChange={handleChange}
+            autoComplete="email"
             className={errors.email ? "is-invalid" : ""}
-            aria-invalid={errors.email ? "true" : "false"}
+            aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
             required
           />
-          {errors.email && (
-            <span id="email-error" className="error-msg" role="alert">
-              {errors.email}
-            </span>
-          )}
+          {errors.email && <span id="email-error" className="error-msg" role="alert">{errors.email}</span>}
         </div>
 
         <div className="checkout-form__group">
-          <label htmlFor="address" className="checkout-form__label">
-            Shipping Address
-          </label>
+          <label htmlFor="address" className="checkout-form__label">Shipping Address</label>
           <input
             id="address"
             name="address"
@@ -136,22 +118,16 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
             onChange={handleChange}
             autoComplete="street-address"
             className={errors.address ? "is-invalid" : ""}
-            aria-invalid={errors.address ? "true" : "false"}
+            aria-invalid={!!errors.address}
             aria-describedby={errors.address ? "address-error" : undefined}
             required
           />
-          {errors.address && (
-            <span id="address-error" className="error-msg" role="alert">
-              {errors.address}
-            </span>
-          )}
+          {errors.address && <span id="address-error" className="error-msg" role="alert">{errors.address}</span>}
         </div>
 
         <div className="checkout-form__row">
           <div className="checkout-form__group">
-            <label htmlFor="city" className="checkout-form__label">
-              City
-            </label>
+            <label htmlFor="city" className="checkout-form__label">City</label>
             <input
               id="city"
               name="city"
@@ -161,21 +137,15 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
               onChange={handleChange}
               autoComplete="address-level2"
               className={errors.city ? "is-invalid" : ""}
-              aria-invalid={errors.city ? "true" : "false"}
+              aria-invalid={!!errors.city}
               aria-describedby={errors.city ? "city-error" : undefined}
               required
             />
-            {errors.city && (
-              <span id="city-error" className="error-msg" role="alert">
-                {errors.city}
-              </span>
-            )}
+            {errors.city && <span id="city-error" className="error-msg" role="alert">{errors.city}</span>}
           </div>
 
           <div className="checkout-form__group">
-            <label htmlFor="zip" className="checkout-form__label">
-              Zip Code
-            </label>
+            <label htmlFor="zip" className="checkout-form__label">Zip Code</label>
             <input
               id="zip"
               name="zip"
@@ -186,22 +156,16 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
               onChange={handleChange}
               autoComplete="postal-code"
               className={errors.zip ? "is-invalid" : ""}
-              aria-invalid={errors.zip ? "true" : "false"}
+              aria-invalid={!!errors.zip}
               aria-describedby={errors.zip ? "zip-error" : undefined}
               required
             />
-            {errors.zip && (
-              <span id="zip-error" className="error-msg" role="alert">
-                {errors.zip}
-              </span>
-            )}
+            {errors.zip && <span id="zip-error" className="error-msg" role="alert">{errors.zip}</span>}
           </div>
         </div>
 
         <div className="checkout-form__actions">
-          <button type="submit" className="checkout-page__btn">
-            Continue to Payment
-          </button>
+          <button type="submit" className="checkout-page__btn">Continue to Payment</button>
         </div>
       </form>
     </section>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../../data/products.js";
 import { useCart } from "../../context/CartContext.js";
@@ -15,9 +15,9 @@ const Product: React.FC = () => {
   const { addToCart } = useCart();  
   const { wishlist, toggleWishlist } = useWishlist(); 
 
-  const product: ProductType | undefined = products.find(
-    (item) => item.id === parseInt(id || "0")
-  );
+  const product = useMemo(() => {
+    return products.find((item) => item.id === parseInt(id || "0"));
+  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,7 +27,9 @@ const Product: React.FC = () => {
     return <NotFound />;
   }
 
-  const isFavorite: boolean = wishlist.some((item) => item.id === product.id);
+  const isFavorite = useMemo(() => {
+    return wishlist.some((item) => item.id === product.id);
+  }, [wishlist, product.id]);
 
   const handleWishlistToggle = (): void => {
     toggleWishlist(product);
@@ -36,14 +38,14 @@ const Product: React.FC = () => {
   return (
     <main className="detail">
       <div className="detail__container">
-        <div className="detail__gallery" aria-label="Product Images">
+        <div className="detail__gallery">
           <ProductGallery images={product.images.main} />
         </div>
         
-        <div className="detail__info" aria-label="Product Details">
+        <div className="detail__info">
           <ProductInfo 
             product={product} 
-            onAddToCart={addToCart as any} 
+            onAddToCart={addToCart} 
             isFavorite={isFavorite}
             onWishlistToggle={handleWishlistToggle} 
           />

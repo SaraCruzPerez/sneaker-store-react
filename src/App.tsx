@@ -10,7 +10,7 @@ const App: React.FC = () => {
     <>
       <ScrollToTop />
       <Header />
-      <main className="main__content">
+      <main className="app__content">
         <AppRouter />
       </main>
       <Footer />

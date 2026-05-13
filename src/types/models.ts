@@ -1,39 +1,29 @@
 export interface Product {
-  id: string | number;
+  id: number;
   name: string;
   brand: string;
   description: string;
   price: number;
   discount: number;
   stock: number;
-  sizes: number[];
+  sizes: (string | number)[];
   images: {
     main: string[];
     thumbs: string[];
   };
 }
 
-export interface CartItem {
-  id: string | number;
-  name: string;
-  price: number;
-  discount: number;
+export interface CartItem extends Product {
+  size: string | number;
   quantity: number;
-  size: string;
   finalPrice: number;
   image: string;
 }
 
-export interface CartItem extends Product {
-  size: string;
-  quantity: number;
-  finalPrice: number;
-}
-
 export interface UserData {
-  id: string | number;
+  id?: string | number;
   name: string;
-  email?: string;
+  email: string;
   avatar?: string;
 }
 

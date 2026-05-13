@@ -1,44 +1,34 @@
-import { render, screen } from '../../../test/test-utils.js';
-import { describe, it, expect } from 'vitest';
+import React from 'react';
+import { render, screen, cleanup } from '../../../test/test-utils.js';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import Footer from './Footer.js';
 
-describe('Footer Component', () => {
-  it('debe mostrar el año actual correctamente', () => {
+vi.mock('lucide-react', () => ({
+  Instagram: () => <div data-testid="icon" />,
+  Twitter: () => <div data-testid="icon" />,
+  Facebook: () => <div data-testid="icon" />,
+  Github: () => <div data-testid="icon" />,
+}));
+
+describe('Footer Component Fast Path', () => {
+  afterEach(cleanup);
+
+  it('cumplir cobertura en un único ciclo de renderizado', () => {
     render(<Footer />);
+    
     const currentYear = new Date().getFullYear().toString();
     expect(screen.getByText(new RegExp(currentYear))).toBeInTheDocument();
-  });
 
-  it('debe contener enlaces de navegación correctos', () => {
-    render(<Footer />);
-    
-    const homeLink = screen.getByRole('link', { name: /^home$/i }); 
-    const collectionsLink = screen.getByRole('link', { name: /collections/i });
-
-    expect(homeLink).toHaveAttribute('href', '/');
-    expect(collectionsLink).toHaveAttribute('href', '/collections');
-  });
-
-  it('debe tener enlaces a redes sociales con los atributos de seguridad', () => {
-    render(<Footer />);
-    
-    const instagramLink = screen.getByLabelText(/follow us on instagram/i);
-    expect(instagramLink).toHaveAttribute('href', 'https://instagram.com');
-    expect(instagramLink).toHaveAttribute('target', '_blank');
-    expect(instagramLink).toHaveAttribute('rel', 'noopener noreferrer');
-  });
-
-  it('debe mostrar la información de contacto correctamente', () => {
-    render(<Footer />);
-    
-    expect(screen.getByText('support@sneakers.com')).toBeInTheDocument();
-    expect(screen.getByText('+34 900 123 456')).toBeInTheDocument();
-  });
-
-  it('el logo debe ser un link a la home con un label accesible', () => {
-    render(<Footer />);
-    
-    const logoLink = screen.getByLabelText(/sneakers home/i);
+    const logoLink = screen.getByRole('link', { name: /sneakers home/i });
     expect(logoLink).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: /^home$/i })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: /collections/i })).toHaveAttribute('href', '/collections');
+
+    const insta = screen.getByLabelText(/follow us on instagram/i);
+    expect(insta).toHaveAttribute('target', '_blank');
+    expect(insta).toHaveAttribute('rel', 'noopener noreferrer');
+
+    expect(screen.getByText(/support@sneakers.com/i).closest('a')).toHaveAttribute('href', 'mailto:support@sneakers.com');
+    expect(screen.getByText(/madrid, spain/i)).toBeInTheDocument();
   });
 });

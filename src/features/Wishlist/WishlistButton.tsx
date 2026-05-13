@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useWishlist } from "../../context/WishlistContext.js";
 import heartIcon from "../../assets/icons/icon-heart.svg";
@@ -7,7 +7,7 @@ import "./WishlistButton.css";
 const WishlistButton: React.FC = () => {
   const { wishlist } = useWishlist();
   
-  const wishlistCount = wishlist.length;
+  const wishlistCount = useMemo(() => wishlist.length, [wishlist]);
 
   const wishlistLabel =
     wishlistCount > 0

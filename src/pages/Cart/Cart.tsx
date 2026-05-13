@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useCart } from "../../context/CartContext.js";
 import CartItem from "../../components/cart/CartItem/CartItem.js";
 import CartSummary from "../../components/cart/CartSummary/CartSummary.js";
@@ -7,7 +7,8 @@ import "./Cart.css";
 
 const Cart: React.FC = () => {
   const { cart, removeFromCart, getTotalPrice } = useCart();
-  const total: number = getTotalPrice();
+
+  const total = useMemo(() => getTotalPrice(), [getTotalPrice]);
 
   return (
     <main className="cart-page">
@@ -33,7 +34,7 @@ const Cart: React.FC = () => {
                       <CartItem 
                         key={`${item.id}-${item.size}`} 
                         item={item} 
-                        onRemove={removeFromCart} 
+                        onRemove={() => removeFromCart(item.id, item.size)} 
                       />
                    ))}
                 </section>

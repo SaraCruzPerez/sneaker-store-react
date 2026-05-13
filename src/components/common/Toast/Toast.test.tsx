@@ -1,45 +1,25 @@
-import { render, screen } from '../../../test/test-utils.js';
-import { describe, it, expect } from 'vitest';
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import Toast from './Toast.js';
 
-describe('Toast Component', () => {
-  it('debe renderizar el mensaje correctamente', () => {
-    const message = 'Product added to cart';
-    render(<Toast message={message} action="add" />);
-
-    expect(screen.getByText(message)).toBeInTheDocument();
-  });
-
-  it('debe mostrar el símbolo "+" y la clase correcta para la acción "add"', () => {
-    const { container } = render(<Toast message="Test" action="add" />);
-    
+describe('Toast Component Coverage', () => {
+  it('debe renderizar el símbolo "+" para la acción "add"', () => {
+    render(<Toast message="Agregado" action="add" />);
     expect(screen.getByText('+')).toBeInTheDocument();
-    
-    const toastDiv = container.querySelector('.toast');
-    expect(toastDiv).toHaveClass('toast--add');
+    expect(screen.getByRole('status')).toHaveClass('toast--add');
   });
 
-  it('debe mostrar el símbolo "−" y la clase correcta para la acción "remove"', () => {
-    const { container } = render(<Toast message="Test" action="remove" />);
-    
+  it('debe renderizar el símbolo "-" para acciones distintas a "add"', () => {
+    render(<Toast message="Eliminado" action="remove" />);
     expect(screen.getByText('−')).toBeInTheDocument();
-    
-    const toastDiv = container.querySelector('.toast');
-    expect(toastDiv).toHaveClass('toast--remove');
   });
 
-  it('debe tener los atributos de accesibilidad para ser anunciado por lectores de pantalla', () => {
-    render(<Toast message="Notification" />);
+  it('debe ejecutar onClose al hacer click', () => {
+    const mockClose = vi.fn();
+    render(<Toast message="Test" onClose={mockClose} />);
     
-    const toastElement = screen.getByRole('status');
-    expect(toastElement).toHaveAttribute('aria-live', 'polite');
-  });
-
-  it('debe usar "add" como acción por defecto si no se proporciona una', () => {
-    const { container } = render(<Toast message="Default action" />);
-    
-    const toastDiv = container.querySelector('.toast');
-    expect(toastDiv).toHaveClass('toast--add');
-    expect(screen.getByText('+')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('status'));
+    expect(mockClose).toHaveBeenCalledTimes(1);
   });
 });

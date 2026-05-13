@@ -40,6 +40,6 @@ describe("App Component", () => {
     );
 
     const mainContent = screen.getByRole("main");
-    expect(mainContent).toHaveClass("main__content");
+    expect(mainContent).toHaveClass("app__content");
   });
 });

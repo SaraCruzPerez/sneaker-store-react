@@ -8,8 +8,6 @@ import { CartProvider } from './context/CartContext.js';
 import { NotificationProvider } from './context/NotificationContext.js';
 
 import App from './App.js';
-import ScrollToTop from './components/common/ScrollToTop.js';
-
 import 'leaflet/dist/leaflet.css';
 import './index.css';
 
@@ -26,7 +24,6 @@ createRoot(rootElement).render(
         <NotificationProvider>
           <WishlistProvider>
             <CartProvider> 
-              <ScrollToTop />
               <App />
             </CartProvider>
           </WishlistProvider>

@@ -1,34 +1,30 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, cleanup } from '../../test/test-utils.js';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import WishlistItem from './WishlistItem.js';
-import { NotificationProvider } from '../../context/NotificationContext.js';
 import type { Product } from '../../types/models.js';
 
-describe('WishlistItem Component', () => {
-  const mockProduct = {
-    id: '1',
-    name: 'Fall Limited Edition Sneakers',
-    brand: 'Sneaker Company',
-    price: 125,
-    images: {
-      main: ['img1.jpg'] 
-    }
-  } as unknown as Product;
+const mockProduct: Product = {
+  id: 1, 
+  name: 'Fall Limited Edition Sneakers',
+  brand: 'Sneaker Company',
+  price: 125,
+  discount: 0,
+  description: 'Test description',
+  stock: 10,
+  sizes: [40, 41],
+  images: {
+    main: ['img1.jpg'],
+    thumbs: []
+  }
+};
 
-  const renderWishlistItem = (onRemove = vi.fn()) => {
-    return render(
-      <MemoryRouter>
-        <NotificationProvider>
-          <WishlistItem product={mockProduct} onRemove={onRemove} />
-        </NotificationProvider>
-      </MemoryRouter>
-    );
-  };
+describe('WishlistItem Component', () => {
+  afterEach(cleanup);
 
   it('debe mostrar la información correcta del producto', () => {
-    renderWishlistItem();
+    const onRemoveMock = vi.fn();
+    render(<WishlistItem product={mockProduct} onRemove={onRemoveMock} />);
     
     expect(screen.getByText(mockProduct.name)).toBeInTheDocument();
     expect(screen.getByText(mockProduct.brand)).toBeInTheDocument();
@@ -37,16 +33,17 @@ describe('WishlistItem Component', () => {
 
   it('debe llamar a onRemove cuando se pulsa el botón de eliminar', () => {
     const onRemoveMock = vi.fn();
-    renderWishlistItem(onRemoveMock);
+    render(<WishlistItem product={mockProduct} onRemove={onRemoveMock} />);
     
-    const removeBtn = screen.getByLabelText(/Remove Fall Limited Edition Sneakers/i);
+    const removeBtn = screen.getByLabelText(/remove fall limited edition sneakers from wishlist/i);
     fireEvent.click(removeBtn);
     
     expect(onRemoveMock).toHaveBeenCalledWith(mockProduct);
   });
 
   it('los enlaces deben apuntar a la URL correcta del producto', () => {
-    renderWishlistItem();
+    const onRemoveMock = vi.fn();
+    render(<WishlistItem product={mockProduct} onRemove={onRemoveMock} />);
     
     const links = screen.getAllByRole('link');
     links.forEach(link => {

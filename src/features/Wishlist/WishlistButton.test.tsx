@@ -1,37 +1,71 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { describe, it, expect, vi } from 'vitest';
+import { render, screen, cleanup } from '../../test/test-utils.js';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import WishlistButton from './WishlistButton.js';
-import { WishlistContext } from '../../context/WishlistContext.js';
-import type { Product } from '../../types/models.js';
+import { useWishlist } from '../../context/WishlistContext.js';
+
+vi.mock('../../context/WishlistContext.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../context/WishlistContext.js')>();
+  return {
+    ...actual,
+    useWishlist: vi.fn(),
+  };
+});
 
 describe('WishlistButton Component', () => {
-  const renderWishlistButton = (wishlistItems: Product[] = []) => {
-    const mockContextValue = {
-      wishlist: wishlistItems,
-      toggleWishlist: vi.fn(),
-      isInWishlist: (id: string) => wishlistItems.some(item => item.id === id)
-    };
-
-    return render(
-      <MemoryRouter>
-        <WishlistContext.Provider value={mockContextValue as any}>
-          <WishlistButton />
-        </WishlistContext.Provider>
-      </MemoryRouter>
-    );
-  };
-
-  it('debe mostrar el label de "no items saved" cuando la lista está vacía', () => {
-    renderWishlistButton([]);
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('aria-label', 'View wishlist, no items saved');
+  
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
 
-  it('debe mostrar el contador cuando hay items', () => {
-    const mockItems = [{ id: '1', name: 'Product' } as unknown as Product];
-    renderWishlistButton(mockItems);
-    expect(screen.getByText('1')).toBeInTheDocument();
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('debe mostrar el label de "no items saved" cuando la lista está vacía', () => {
+    vi.mocked(useWishlist).mockReturnValue({
+      wishlist: [],
+      addToWishlist: vi.fn(),
+      removeFromWishlist: vi.fn(),
+      isInWishlist: vi.fn().mockReturnValue(false),
+      toggleWishlist: vi.fn(),
+    });
+
+    render(<WishlistButton />);
+    
+    const link = screen.getByRole('link');
+    expect(link).toHaveAttribute('aria-label', 'View wishlist, no items saved');
+    expect(screen.queryByText(/[0-9]/)).not.toBeInTheDocument();
+  });
+
+  it('debe mostrar el contador correcto cuando hay productos', () => {
+    vi.mocked(useWishlist).mockReturnValue({
+      wishlist: [{ id: 1 }, { id: 2 }] as any,
+      addToWishlist: vi.fn(),
+      removeFromWishlist: vi.fn(),
+      isInWishlist: vi.fn(),
+      toggleWishlist: vi.fn(),
+    });
+
+    render(<WishlistButton />);
+
+    expect(screen.getByText('2')).toBeInTheDocument();
+    const link = screen.getByRole('link');
+    expect(link).toHaveAttribute('aria-label', 'View wishlist, 2 items saved');
+  });
+
+  it('debe dirigir a la ruta /wishlist correctamente', () => {
+    vi.mocked(useWishlist).mockReturnValue({
+      wishlist: [],
+      addToWishlist: vi.fn(),
+      removeFromWishlist: vi.fn(),
+      isInWishlist: vi.fn(),
+      toggleWishlist: vi.fn(),
+    });
+
+    render(<WishlistButton />);
+    
+    const link = screen.getByRole('link');
+    expect(link).toHaveAttribute('href', '/wishlist');
   });
 });

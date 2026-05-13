@@ -1,9 +1,11 @@
-import React, { createContext, useState, useContext, type ReactNode } from "react";
+import React, { createContext, useState, useContext, useEffect, useMemo, useCallback, type ReactNode } from "react";
 import type { UserData } from "../types/models.js";
+
+type LoginData = Pick<UserData, 'name' | 'email'> & Partial<UserData>;
 
 interface UserContextType {
   user: UserData | null;
-  login: (userData: UserData) => void;
+  login: (userData: LoginData) => void;
   logout: () => void;
   isLoggedIn: boolean;
 }
@@ -15,19 +17,45 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserData | null>(() => {
+    const savedUser = localStorage.getItem("user");
+    if (!savedUser) return null;
 
-  const login = (userData: UserData): void => setUser(userData);
-  const logout = (): void => setUser(null);
+    try {
+      return JSON.parse(savedUser) as UserData;
+    } catch (error) {
+      console.error("Error parsing user from localStorage", error);
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
+
+  const login = useCallback((userData: LoginData): void => {
+    const completeUser = {
+      id: Date.now().toString(), 
+      ...userData
+    } as UserData;
+    
+    setUser(completeUser);
+  }, []);
+
+  const logout = useCallback((): void => setUser(null), []);
 
   const isLoggedIn = user !== null;
 
-  const value: UserContextType = {
+  const value = useMemo(() => ({
     user,
     login,
     logout,
     isLoggedIn
-  };
+  }), [user, login, logout, isLoggedIn]);
 
   return (
     <UserContext.Provider value={value}>

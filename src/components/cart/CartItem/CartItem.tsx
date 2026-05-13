@@ -1,25 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useNotification } from "../../../context/NotificationContext.js";
 import iconDelete from "../../../assets/icons/icon-delete.svg";
 import "./CartItem.css";
-import type { CartItem as CartItemType } from "../../../types/models.js";
+import type { CartItem as CartItemType } from "../../../types/models";
 
 interface CartItemProps {
   item: CartItemType;
-  onRemove: (id: string | number, size: string) => void;
+  onRemove: (id: string | number, size: string | number) => void;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
-  const { showNotification } = useNotification();
-
   const handleRemove = (): void => {
     onRemove(item.id, item.size);
   };
 
   if (!item) return null;
 
-  const productImage = item.images?.main?.[0] || (item as any).image || (item as any).img;
+  const productImage = item.images?.main?.[0] || item.image || (item as any).img;
 
   return (
     <article className="cart-item">
@@ -27,8 +24,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
         <Link to={`/product/${item.id}`} aria-label={`View ${item.name}`}>
           <img 
             src={productImage} 
-            alt="" 
-            aria-hidden="true" 
+            alt={item.name} 
             className="cart-item__img" 
           />
         </Link>
@@ -42,15 +38,15 @@ const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
       </div>
 
       <div className="cart-item__group">
-          <p className="cart-item__price">${(item.finalPrice * item.quantity).toFixed(2)}</p>
-          <button 
-              type="button"
-              className="cart-item__remove-btn" 
-              onClick={handleRemove}
-              aria-label={`Remove ${item.name} size ${item.size} from cart`}
-              >
-            <img src={iconDelete} alt="" aria-hidden="true" />
-          </button>
+        <p className="cart-item__price">${(item.finalPrice * item.quantity).toFixed(2)}</p>
+        <button 
+          type="button"
+          className="cart-item__remove-btn" 
+          onClick={handleRemove}
+          aria-label={`Remove ${item.name} size ${item.size} from cart`}
+        >
+          <img src={iconDelete} alt="" aria-hidden="true" />
+        </button>
       </div>
     </article>
   );

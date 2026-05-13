@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import logo from "../../../assets/icons/logo.svg";
 import "./Footer.css";
 
-const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
+const CURRENT_YEAR = new Date().getFullYear();
 
+const Footer: React.FC = () => {
   return (
     <footer className="footer">
       <div className="footer__container">
         <div className="footer__brand">
-          <Link to="/" className="footer__logo" aria-label="Sneakers Home">
+          <Link to="/" className="footer__logo-link" aria-label="Sneakers Home">
             <img
               src={logo}
               alt=""
@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
       </div>
 
       <div className="footer__bottom">
-        <p>&copy; {currentYear} SNEAKERS. All rights reserved.</p>
+        <p>&copy; {CURRENT_YEAR} SNEAKERS. All rights reserved.</p>
       </div>
     </footer>
   );

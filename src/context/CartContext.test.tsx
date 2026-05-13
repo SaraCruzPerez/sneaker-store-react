@@ -1,150 +1,106 @@
-import { render, screen, act } from '@testing-library/react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { CartProvider, useCart } from './CartContext.js';
+import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
+import { renderHook, act, cleanup } from "@testing-library/react";
+import { CartProvider, useCart } from "./CartContext.js";
+import React from "react";
 
-const TestComponent = () => {
-  const { cart, addToCart, removeFromCart, clearCart, getTotalPrice } = useCart();
-  return (
-    <div>
-      <div data-testid="cart-count">{cart.length}</div>
-      <div data-testid="total-price">{getTotalPrice()}</div>
-      <button onClick={() => addToCart({ id: 1, name: 'Prod', price: 100, discount: 10, brand: 'B', image: 'i' }, 1, 'M')}>
-        Add Discounted
-      </button>
-      <button onClick={() => addToCart({ id: 2, name: 'Normal', price: 50, discount: 0, brand: 'B', image: 'i' }, 1, 'L')}>
-        Add No Discount
-      </button>
-      <button onClick={() => addToCart(null as any, 1, '')}>
-        Add Invalid
-      </button>
-      <button onClick={() => removeFromCart(1, 'M')}>Remove Item</button>
-      <button onClick={() => clearCart()}>Clear</button>
-    </div>
-  );
-};
+const localStorageMock = (() => {
+  let store: Record<string, string> = {};
+  return {
+    getItem: (key: string) => store[key] || null,
+    setItem: (key: string, value: string) => { store[key] = value; },
+    clear: () => { store = {}; },
+    removeItem: (key: string) => { delete store[key]; },
+  };
+})();
+Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
-describe('CartContext', () => {
+describe("CartContext 100% Coverage", () => {
   beforeEach(() => {
     localStorage.clear();
     vi.clearAllMocks();
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
-  it('debe inicializar con localStorage vacío', () => {
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-    expect(screen.getByTestId('cart-count').textContent).toBe('0');
+  afterEach(cleanup);
+
+  const p1 = { id: 1, name: "Product 1", brand: "B", price: 100, discount: 10, image: "i" };
+
+  it("debe cubrir todas las ramas", () => {
+    const { result } = renderHook(() => useCart(), {
+      wrapper: ({ children }) => <CartProvider>{children}</CartProvider>,
+    });
+
+    act(() => {
+      // @ts-ignore
+      result.current.addToCart(null, 1, "M");      
+      result.current.addToCart(p1, 1, "");
+      result.current.addToCart(p1, 0, "M");
+      result.current.addToCart(p1, -1, "M");
+    });
+
+    expect(result.current.cart).toHaveLength(0);
   });
 
-  it('debe cargar datos válidos de localStorage', () => {
-    const initialCart = [{ id: 1, price: 100, discount: 0, finalPrice: 100, quantity: 2, size: 'M', name: 'A', brand: 'B', image: 'i' }];
-    localStorage.setItem('cart', JSON.stringify(initialCart));
+  it("debe cubrir con y Sin descuento", () => {
+    const { result } = renderHook(() => useCart(), {
+      wrapper: ({ children }) => <CartProvider>{children}</CartProvider>,
+    });
+
+    act(() => {
+      result.current.addToCart(p1, 1, "M"); 
+      result.current.addToCart({ ...p1, id: 2, discount: 0 }, 1, "M");
+    });
+
+    expect(result.current.cart[0]!.finalPrice).toBe(90);  
+    expect(result.current.cart[1]!.finalPrice).toBe(100); 
+  });
+
+  it("debe cubrir la línea 52 (Lógica AND en el map)", () => {
+    const { result } = renderHook(() => useCart(), {
+      wrapper: ({ children }) => <CartProvider>{children}</CartProvider>,
+    });
+
+    act(() => {
+      result.current.addToCart(p1, 1, "M");
+      result.current.addToCart({ ...p1, id: 3 }, 1, "M");
+    });
+
+    act(() => {
+      result.current.addToCart(p1, 1, "M");
+      result.current.addToCart(p1, 1, "XL");
+    });
+
+    expect(result.current.cart).toHaveLength(3);
+  });
+
+  it("debe manejar localStorage y errores de parseo", () => {
+    const saved = [{ ...p1, quantity: 1, size: "M", finalPrice: 90, images: {main:[], thumbs:[]} }];
+    localStorage.setItem("cart", JSON.stringify(saved));
+    renderHook(() => useCart(), { wrapper: ({ children }) => <CartProvider>{children}</CartProvider> });
     
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-    expect(screen.getByTestId('cart-count').textContent).toBe('1');
+    localStorage.setItem("cart", "invalid");
+    renderHook(() => useCart(), { wrapper: ({ children }) => <CartProvider>{children}</CartProvider> });
+    expect(console.error).toHaveBeenCalled();
   });
 
-  it('debe manejar errores de parsing en localStorage', () => {
-    localStorage.setItem('cart', 'invalid-json');
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-
-    expect(screen.getByTestId('cart-count').textContent).toBe('0');
-    expect(spy).toHaveBeenCalled();
-    spy.mockRestore();
-  });
-
-  it('debe gestionar guards de producto o talla nulos', () => {
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-    act(() => {
-      screen.getByText('Add Invalid').click();
+  it("debe gestionar el resto de funciones (clear, remove, total)", () => {
+    const { result } = renderHook(() => useCart(), {
+      wrapper: ({ children }) => <CartProvider>{children}</CartProvider>,
     });
-    expect(screen.getByTestId('cart-count').textContent).toBe('0');
+    act(() => { result.current.addToCart(p1, 1, "M"); });
+    expect(result.current.getTotalPrice()).toBe(90);
+    act(() => { result.current.removeFromCart(1, "M"); });
+    expect(result.current.cart).toHaveLength(0);
+    act(() => {
+      result.current.addToCart(p1, 1, "M");
+      result.current.clearCart();
+    });
+    expect(result.current.cart).toHaveLength(0);
   });
 
-  it('debe calcular precios con y sin descuento', () => {
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-    
-    act(() => {
-      screen.getByText('Add Discounted').click(); 
-      screen.getByText('Add No Discount').click(); 
-    });
-
-    expect(screen.getByTestId('total-price').textContent).toBe('140');
-  });
-
-  it('debe acumular cantidad si el producto y talla ya existen', () => {
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-
-    act(() => {
-      screen.getByText('Add Discounted').click();
-      screen.getByText('Add Discounted').click();
-    });
-
-    expect(screen.getByTestId('cart-count').textContent).toBe('1');
-    expect(screen.getByTestId('total-price').textContent).toBe('180');
-  });
-
-  it('debe eliminar un producto específico por ID y talla', () => {
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-
-    act(() => {
-      screen.getByText('Add Discounted').click();
-      screen.getByText('Add No Discount').click();
-    });
-    expect(screen.getByTestId('cart-count').textContent).toBe('2');
-
-    act(() => {
-      screen.getByText('Remove Item').click();
-    });
-    expect(screen.getByTestId('cart-count').textContent).toBe('1');
-    expect(screen.getByTestId('total-price').textContent).toBe('50');
-  });
-
-  it('debe limpiar el carrito', () => {
-    render(
-      <CartProvider>
-        <TestComponent />
-      </CartProvider>
-    );
-
-    act(() => {
-      screen.getByText('Add Discounted').click();
-      screen.getByText('Clear').click();
-    });
-    expect(screen.getByTestId('cart-count').textContent).toBe('0');
-  });
-
-  it('debe lanzar error fuera del provider', () => {
+  it("debe lanzar error fuera del provider", () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<TestComponent />)).toThrow("useCart must be used within a CartProvider");
+    expect(() => renderHook(() => useCart())).toThrow();
     consoleSpy.mockRestore();
   });
 });

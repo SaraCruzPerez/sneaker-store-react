@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import React, { createContext, useContext, useState, useCallback, useRef, useMemo, useEffect, type ReactNode } from "react";
 import Toast from "../components/common/Toast/Toast.js"; 
 import type { NotificationData, NotificationAction } from "../types/models.js";
 
@@ -14,24 +14,47 @@ interface NotificationProviderProps {
 
 export const NotificationProvider = ({ children }: NotificationProviderProps) => {
   const [notification, setNotification] = useState<NotificationData | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const showNotification = useCallback((message: string, action: NotificationAction = 'add') => { 
-    setNotification({ message, action });
-    
-    const timer = setTimeout(() => {
-      setNotification(null);
-    }, 2500);
-
+  const hideNotification = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+    setNotification(null);
   }, []);
 
+  const showNotification = useCallback((message: string, action: NotificationAction = "add") => { 
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    setNotification({ message, action });
+    
+    timerRef.current = setTimeout(() => {
+      hideNotification();
+    }, 1000);
+  }, [hideNotification]);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, []);
+
+  const value = useMemo(() => ({ showNotification }), [showNotification]);
+
   return (
-    <NotificationContext.Provider value={{ showNotification }}>
+    <NotificationContext.Provider value={value}>
       {children}
       {notification && (
         <Toast 
           message={notification.message} 
           action={notification.action} 
-          onClose={() => setNotification(null)} 
+          onClose={hideNotification} 
         />
       )}
     </NotificationContext.Provider>

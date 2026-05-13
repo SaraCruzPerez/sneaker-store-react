@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/icons/logo.svg";
 import btnMenu from "../../../assets/icons/icon-menu.svg";
@@ -11,9 +11,9 @@ import "./Header.css";
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const toggleMenu = (): void => {
+  const toggleMenu = useCallback((): void => {
     setIsMenuOpen((prev) => !prev);
-  };
+  }, []);
 
   return (
     <header className="header">

@@ -3,13 +3,18 @@ import "./Toast.css";
 
 interface ToastProps {
   message: string;
-  action?: 'add' | 'remove' | 'error'; 
+  action?: "add" | "remove" | "error";
   onClose?: () => void; 
 }
 
-const Toast: React.FC<ToastProps> = ({ message, action = "add" }) => {
+const Toast: React.FC<ToastProps> = ({ message, action = "add", onClose }) => {
   return (
-    <div className={`toast toast--${action}`} role="status" aria-live="polite">
+    <div 
+      className={`toast toast--${action}`} 
+      role="status" 
+      aria-live="polite"
+      onClick={onClose} 
+    >
       <span className="toast__symbol">
         {action === "add" ? "+" : "−"} 
       </span>

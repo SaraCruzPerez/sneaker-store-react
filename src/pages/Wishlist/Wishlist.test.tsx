@@ -1,116 +1,111 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, cleanup, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { vi, describe, it, expect } from "vitest";
-import Wishlist from "./Wishlist.js";
-import { useWishlist } from "../../context/WishlistContext.js";
+import { vi, describe, it, expect, afterEach } from "vitest";
+import Wishlist from "./Wishlist";
+import { useWishlist } from "../../context/WishlistContext";
+import type { Product } from "../../types/models";
 
 vi.mock("../../context/WishlistContext", () => ({
   useWishlist: vi.fn(),
 }));
 
-vi.mock("../../context/NotificationContext", () => ({
-  useNotification: vi.fn(() => ({
-    showNotification: vi.fn(),
-  })),
-}));
-
-const mockProduct1 = {
-  id: "1",
+const mockProduct1: Product = {
+  id: 1,
   name: "Sneaker One",
   brand: "Brand",
   price: 100,
-  images: { main: ["img1.jpg"] },
+  discount: 0,
+  description: "A great sneaker",
+  stock: 10,
+  images: { 
+    main: ["img1.jpg"], 
+    thumbs: ["t1.jpg"] 
+  },
   sizes: [40],
 };
 
-const mockProduct2 = {
-  id: "2",
-  name: "Sneaker Two",
-  brand: "Brand",
-  price: 200,
-  images: { main: ["img2.jpg"] },
-  sizes: [42],
-};
+describe("Wishlist Page Full Coverage", () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
 
-describe("Wishlist Page", () => {
-  it("debe mostrar el estado vacío cuando no hay productos", () => {
-    (useWishlist as any).mockReturnValue({
+  it("mostrar el mensaje cuando está vacía", () => {
+    vi.mocked(useWishlist).mockReturnValue({
       wishlist: [],
       toggleWishlist: vi.fn(),
+      addToWishlist: vi.fn(),
+      removeFromWishlist: vi.fn(),
+      isInWishlist: vi.fn(),
     });
 
     render(
       <MemoryRouter>
         <Wishlist />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
-    expect(screen.getByText(/your wishlist is empty/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /explore collection/i }),
-    ).toHaveAttribute("href", "/collections");
+    expect(screen.getByText(/Your wishlist is empty/i)).toBeInTheDocument();
+    expect(screen.getByText(/Start adding the sneakers/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Explore Collection/i })).toHaveAttribute("href", "/collections");
   });
 
-  it('debe mostrar el plural "items" cuando hay más de un producto', () => {
-    (useWishlist as any).mockReturnValue({
-      wishlist: [mockProduct1, mockProduct2],
-      toggleWishlist: vi.fn(),
-    });
-
-    render(
-      <MemoryRouter>
-        <Wishlist />
-      </MemoryRouter>,
-    );
-
-    expect(screen.getByText(/2 items saved/i)).toBeInTheDocument();
-  });
-
-  it('debe mostrar el singular "item" cuando hay exactamente un producto', () => {
-    (useWishlist as any).mockReturnValue({
+  it("mostrar '1 item' en singular cuando solo hay un producto", () => {
+    vi.mocked(useWishlist).mockReturnValue({
       wishlist: [mockProduct1],
       toggleWishlist: vi.fn(),
+      addToWishlist: vi.fn(),
+      removeFromWishlist: vi.fn(),
+      isInWishlist: vi.fn(),
     });
 
     render(
       <MemoryRouter>
         <Wishlist />
-      </MemoryRouter>,
+      </MemoryRouter>
     );
 
     expect(screen.getByText(/1 item saved/i)).toBeInTheDocument();
   });
 
-  it("debe renderizar la lista de productos correctamente", () => {
-    (useWishlist as any).mockReturnValue({
-      wishlist: [mockProduct1],
+  it("mostrar items en plural cuando hay más de un producto", () => {
+    const mockProduct2 = { ...mockProduct1, id: 2, name: "Sneaker Two" };
+    vi.mocked(useWishlist).mockReturnValue({
+      wishlist: [mockProduct1, mockProduct2],
       toggleWishlist: vi.fn(),
+      addToWishlist: vi.fn(),
+      removeFromWishlist: vi.fn(),
+      isInWishlist: vi.fn(),
     });
 
     render(
       <MemoryRouter>
         <Wishlist />
-      </MemoryRouter>,
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/2 items saved/i)).toBeInTheDocument();
+  });
+
+  it("renderizar la lista y llamar a toggleWishlist al eliminar", () => {
+    const mockToggle = vi.fn();
+    vi.mocked(useWishlist).mockReturnValue({
+      wishlist: [mockProduct1],
+      toggleWishlist: mockToggle,
+      addToWishlist: vi.fn(),
+      removeFromWishlist: vi.fn(),
+      isInWishlist: vi.fn(),
+    });
+
+    render(
+      <MemoryRouter>
+        <Wishlist />
+      </MemoryRouter>
     );
 
     expect(screen.getByText("Sneaker One")).toBeInTheDocument();
-    expect(screen.getByRole("list")).toBeInTheDocument();
-  });
-
-  it("debe llamar a toggleWishlist al eliminar un producto", () => {
-    const mockToggle = vi.fn();
-    (useWishlist as any).mockReturnValue({
-      wishlist: [mockProduct1],
-      toggleWishlist: mockToggle,
-    });
-
-    render(
-      <MemoryRouter>
-        <Wishlist />
-      </MemoryRouter>,
-    );
-
-    const removeBtn = screen.getByRole("button", { name: /remove|delete/i });
+    
+    const removeBtn = screen.getByRole("button"); 
     fireEvent.click(removeBtn);
 
     expect(mockToggle).toHaveBeenCalledWith(mockProduct1);

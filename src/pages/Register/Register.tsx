@@ -17,14 +17,12 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
 
   const validateForm = (): boolean => {
-    let newErrors: RegisterErrors = {};
-    
-    if (!name.trim()) {
-      newErrors.name = "Please enter your full name";
-    }
-
+    const newErrors: RegisterErrors = {};
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!email) {
+    
+    if (!name.trim()) newErrors.name = "Please enter your full name";
+
+    if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!emailRegex.test(email)) {
       newErrors.email = "Please enter a valid email address";
@@ -36,64 +34,39 @@ const Register: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    
     if (validateForm()) {
-      login({ name, email } as any);
+      login({ name: name.trim(), email: email.trim().toLowerCase() });
       navigate("/");
     }
+  };
+
+  const handleInputChange = (field: keyof RegisterErrors, value: string, setter: (v: string) => void) => {
+    setter(value);
+    if (errors[field]) setErrors(prev => ({ ...prev, [field]: undefined }));
   };
 
   return (
     <main className="register">
       <div className="register__card">
         <header className="register__header">
-          <h1 className="register__title">
-            Create <span className="register__title-orange">Account</span>
-          </h1>
+          <h1 className="register__title">Create <span className="register__title-orange">Account</span></h1>
           <p className="register__subtitle">Unlock your style journey</p>
         </header>
 
-        <form className="register__form" onSubmit={handleSubmit} noValidate>
+        <form className="register__form" onSubmit={handleSubmit} noValidate aria-label="Register form">
           <div className="register__input-group">
             <label htmlFor="name" className="register__label">Full Name</label>
-            <input 
-              id="name"
-              name="name" 
-              autoComplete="name"
-              className={`register__input ${errors.name ? 'register__input-error' : ''}`}
-              type="text" 
-              value={name} 
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} 
-              placeholder="Sara Cruz"
-              aria-required="true"
-              aria-invalid={errors.name ? "true" : "false"}
-              aria-describedby={errors.name ? "name-error" : undefined}
-              required
-            />
+            <input id="name" name="name" autoComplete="name" className={`register__input ${errors.name ? 'register__input-error' : ''}`} type="text" value={name} onChange={(e) => handleInputChange('name', e.target.value, setName)} placeholder="Sara Cruz" required aria-invalid={!!errors.name} />
             {errors.name && <span id="name-error" className="register__error-msg" role="alert">{errors.name}</span>}
           </div>
 
           <div className="register__input-group">
             <label htmlFor="email" className="register__label">Email Address</label>
-            <input 
-              id="email"
-              className={`register__input ${errors.email ? 'register__input-error' : ''}`}
-              name="email"
-              autoComplete="email"
-              type="email" 
-              value={email} 
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} 
-              placeholder="sara@example.com"
-              aria-invalid={errors.email ? "true" : "false"}
-              aria-describedby={errors.email ? "email-error" : undefined}
-              required
-            />
+            <input id="email" className={`register__input ${errors.email ? 'register__input-error' : ''}`} name="email" autoComplete="email" type="email" value={email} onChange={(e) => handleInputChange('email', e.target.value, setEmail)} placeholder="sara@example.com" required aria-invalid={!!errors.email} />
             {errors.email && <span id="email-error" className="register__error-msg" role="alert">{errors.email}</span>}
           </div>
 
-          <button type="submit" className="register__button">
-            LET'S GO!
-          </button>
+          <button type="submit" className="register__button">LET'S GO!</button>
         </form>
       </div>
     </main>

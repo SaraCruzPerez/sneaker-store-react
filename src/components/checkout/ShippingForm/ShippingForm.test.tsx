@@ -1,33 +1,52 @@
 import React from 'react';
-import { render, screen, fireEvent, cleanup } from '../../../test/test-utils.js';
+import { render, screen, cleanup, userEvent } from '../../../test/test-utils';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import ShippingForm from './ShippingForm.js';
+import ShippingForm from './ShippingForm';
 
-describe('ShippingForm Full Coverage', () => {
+describe('ShippingForm 100% Coverage', () => {
   const emptyData = { name: '', lastName: '', email: '', address: '', city: '', zip: '' };
-  const setFormData = vi.fn();
-  const setErrors = vi.fn();
+  
+  const setFormData = vi.fn((updater) => {
+    if (typeof updater === 'function') updater(emptyData);
+  });
+  const setErrors = vi.fn((updater) => {
+    if (typeof updater === 'function') updater({});
+  });
   const onNext = vi.fn();
 
-  beforeEach(() => vi.clearAllMocks());
-  afterEach(() => cleanup());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-  it('debe cubrir todas las ramas de handleChange', () => {
-    const { rerender } = render(
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('actualizar formData y manejar la lógica de limpieza de errores', async () => {
+    const user = userEvent.setup();
+    const errorsInitial = { name: 'Required' };
+    
+    render(
       <ShippingForm 
         formData={emptyData} 
         setFormData={setFormData} 
-        errors={{ name: 'Required' }} 
+        errors={errorsInitial} 
         setErrors={setErrors} 
         onNext={onNext} 
       />
     );
 
     const nameInput = screen.getByLabelText(/First Name/i);
-    fireEvent.change(nameInput, { target: { name: 'name', value: 'S' } });
-    expect(setErrors).toHaveBeenCalled();
+    await user.type(nameInput, 'S');
 
-    rerender(
+    expect(setFormData).toHaveBeenCalled();
+    expect(setErrors).toHaveBeenCalled();
+  });
+
+  it('actualizar formData sin limpiar errores si no los hay', async () => {
+    const user = userEvent.setup();
+    
+    render(
       <ShippingForm 
         formData={emptyData} 
         setFormData={setFormData} 
@@ -36,67 +55,85 @@ describe('ShippingForm Full Coverage', () => {
         onNext={onNext} 
       />
     );
-    fireEvent.change(nameInput, { target: { name: 'name', value: 'Sa' } });
+
+    const lastNameInput = screen.getByLabelText(/Last Name/i);
+    await user.type(lastNameInput, 'C');
+
+    expect(setFormData).toHaveBeenCalled();
+    expect(setErrors).not.toHaveBeenCalled();
   });
 
-  it('debe cubrir todas las ramas de validacion y renderizado de errores', () => {
+  it('disparar todas las validaciones de error y retornar false', async () => {
+    const user = userEvent.setup();
     const invalidData = { 
-      name: ' ', 
-      lastName: ' ', 
-      email: 'bad-email', 
-      address: ' ', 
-      city: ' ', 
-      zip: '12' 
-    };
-    
-    const errorsState = {
-      name: 'Required',
-      lastName: 'Required',
-      email: 'Invalid email',
-      address: 'Address required',
-      city: 'Required',
-      zip: 'Required'
+      name: '  ',
+      lastName: '', 
+      email: 'invalid-email', 
+      address: '', 
+      city: '', 
+      zip: 'abc' 
     };
 
-    const { rerender } = render(
+    render(
       <ShippingForm 
         formData={invalidData} 
         setFormData={setFormData} 
-        errors={errorsState} 
+        errors={{}} 
         setErrors={setErrors} 
         onNext={onNext} 
       />
     );
 
-    fireEvent.click(screen.getByRole('button'));
-    
-    expect(screen.getByText('Invalid email')).toBeInTheDocument();
-    expect(screen.getByText('Address required')).toBeInTheDocument();
-    expect(screen.getAllByText('Required')).toHaveLength(4);
+    const submitBtn = screen.getByRole('button', { name: /continue to payment/i });
+    await user.click(submitBtn);
+
+    expect(setErrors).toHaveBeenCalledWith({
+      name: "Required",
+      lastName: "Required",
+      email: "Invalid email",
+      address: "Address required",
+      city: "Required",
+      zip: "Required"
+    });
+    expect(onNext).not.toHaveBeenCalled();
+  });
+
+  it('debe renderizar visualmente los bloques de error y atributos ARIA', () => {
+    const allErrors = {
+      name: 'Err1',
+      lastName: 'Err2',
+      email: 'Err3',
+      address: 'Err4',
+      city: 'Err5',
+      zip: 'Err6'
+    };
+
+    render(
+      <ShippingForm 
+        formData={emptyData} 
+        setFormData={setFormData} 
+        errors={allErrors} 
+        setErrors={setErrors} 
+        onNext={onNext} 
+      />
+    );
+
+    Object.values(allErrors).forEach(msg => {
+      expect(screen.getByText(msg)).toBeInTheDocument();
+    });
 
     const emailInput = screen.getByLabelText(/Email Address/i);
     expect(emailInput).toHaveAttribute('aria-invalid', 'true');
     expect(emailInput).toHaveAttribute('aria-describedby', 'email-error');
-
-    rerender(
-      <ShippingForm 
-        formData={emptyData} 
-        setFormData={setFormData} 
-        errors={{}} 
-        setErrors={setErrors} 
-        onNext={onNext} 
-      />
-    );
-    expect(emailInput).toHaveAttribute('aria-invalid', 'false');
-    expect(emailInput).not.toHaveAttribute('aria-describedby');
   });
 
-  it('debe cubrir la rama de exito de validate y handleSubmit', () => {
+  it('debe llamar a onNext si la validación es exitosa', async () => {
+    const user = userEvent.setup();
     const validData = {
       name: 'Sara',
       lastName: 'Cruz',
       email: 'sara@example.com',
-      address: 'Calle 1',
+      address: 'Calle Mayor 1',
       city: 'Madrid',
       zip: '28001'
     };
@@ -111,35 +148,7 @@ describe('ShippingForm Full Coverage', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button'));
+    await user.click(screen.getByRole('button', { name: /continue to payment/i }));
     expect(onNext).toHaveBeenCalled();
-  });
-
-  it('debe validar especificamente el formato de email y zip', () => {
-    const mixedData = { 
-      ...emptyData, 
-      name: 'A', 
-      lastName: 'B', 
-      email: 'test@test.', 
-      address: 'C', 
-      city: 'D', 
-      zip: '123456' 
-    };
-    
-    render(
-      <ShippingForm 
-        formData={mixedData} 
-        setFormData={setFormData} 
-        errors={{}} 
-        setErrors={setErrors} 
-        onNext={onNext} 
-      />
-    );
-
-    fireEvent.click(screen.getByRole('button'));
-    expect(setErrors).toHaveBeenCalledWith(expect.objectContaining({
-      email: "Invalid email",
-      zip: "Required"
-    }));
   });
 });

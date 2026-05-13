@@ -7,7 +7,7 @@ import type { Product } from "../../../types/models.js";
 
 interface ProductInfoProps {
   product: Product;
-  onAddToCart: (product: Product, quantity: number, size: string) => void;
+  onAddToCart: (product: any, quantity: number, size: string | number) => void;
   isFavorite: boolean;
   onWishlistToggle: () => void;
 }
@@ -18,11 +18,12 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
   isFavorite,
   onWishlistToggle,
 }) => {
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | number | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showError, setShowError] = useState<boolean>(false);
 
-  const { showNotification } = useNotification();
+  // Optimizamos: solo extraemos la función si existe el contexto
+  const notificationContext = useNotification();
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -30,18 +31,20 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       return;
     }
     onAddToCart(product, quantity, selectedSize);
-    showNotification("Added", "add");
+    notificationContext?.showNotification("Added to cart", "add");
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     onWishlistToggle();
+    if (!isFavorite) {
+      notificationContext?.showNotification("Added to wishlist", "add");
+    }
   };
 
-  const hasDiscount = product.discount > 0;
-  const finalPrice = hasDiscount
-    ? product.price * (1 - product.discount / 100)
+  const finalPrice = product.discount > 0 
+    ? product.price * (1 - product.discount / 100) 
     : product.price;
 
   return (
@@ -49,12 +52,10 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       <header className="info__header">
         <span className="info__brand">{product.brand}</span>
         <h1 className="info__title">{product.name}</h1>
-        <div className="info__price-container" aria-label="Price information">
+        <div className="info__price-container">
           <span className="info__price-final">${finalPrice.toFixed(2)}</span>
-          {hasDiscount && (
-            <span className="info__price-old" aria-label="Original price">
-              ${product.price.toFixed(2)}
-            </span>
+          {product.discount > 0 && (
+            <span className="info__price-old">${product.price.toFixed(2)}</span>
           )}
         </div>
       </header>
@@ -62,18 +63,14 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       <p className="info__description">{product.description}</p>
 
       <div className="info__size-container">
-        <p className="info__label" id="size-label">Select Size</p>
-        <div className="info__size-list" role="group" aria-labelledby="size-label">
+        <p className="info__label">Select Size</p>
+        <div className="info__size-list">
           {product.sizes.map((size) => (
             <button
               key={size}
               type="button"
-              className={`info__size-btn ${String(selectedSize) === String(size) ? "is-active" : ""}`}
-              aria-pressed={String(selectedSize) === String(size)}
-              onClick={() => {
-                setSelectedSize(String(size));
-                setShowError(false);
-              }}
+              className={`info__size-btn ${selectedSize === size ? "is-active" : ""}`}
+              onClick={() => { setSelectedSize(size); setShowError(false); }}
             >
               {size}
             </button>
@@ -85,45 +82,15 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       <div className="info__actions">
         <div className="info__interactive-group">
           <div className="info__counter">
-            <button
-              type="button"
-              className="info__counter-btn"
-              onClick={() => quantity > 1 && setQuantity(quantity - 1)}
-              aria-label="Decrease quantity"
-            >
-              -
-            </button>
-            <span className="info__counter-value" aria-live="polite" aria-atomic="true">
-              {quantity}
-            </span>
-            <button
-              type="button"
-              className="info__counter-btn"
-              onClick={() => setQuantity(quantity + 1)}
-              aria-label="Increase quantity"
-            >
-              +
-            </button>
+            <button type="button" className="info__counter-btn" onClick={() => quantity > 1 && setQuantity(quantity - 1)} aria-label="Decrease quantity">-</button>
+            <span className="info__counter-value">{quantity}</span>
+            <button type="button" className="info__counter-btn" onClick={() => setQuantity(quantity + 1)} aria-label="Increase quantity">+</button>
           </div>
-
-          <button
-            type="button"
-            className={`info__wishlist ${isFavorite ? "is-active" : ""}`}
-            onClick={handleToggleWishlist}
-            aria-label={isFavorite ? "Remove from wishlist" : "Add to wishlist"}
-            aria-pressed={isFavorite}
-          >
-            <img src={isFavorite ? heartFilled : heart} alt="" aria-hidden="true" />
+          <button type="button" className={`info__wishlist ${isFavorite ? "is-fav" : ""}`} onClick={handleToggleWishlist} aria-label="Wishlist">
+            <img src={isFavorite ? heartFilled : heart} alt="" />
           </button>
         </div>
-
-        <button 
-          type="button"
-          className="info__add-btn" 
-          onClick={handleAddToCart}
-        >
-          Add to cart
-        </button>
+        <button type="button" className="info__add-btn" onClick={handleAddToCart}>Add to cart</button>
       </div>
     </section>
   );
