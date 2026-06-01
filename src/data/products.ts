@@ -85,8 +85,8 @@ import type { Product } from '../types/models.js';
 export const products: Product[] = [
   {
     id: 1,
-    brand: "TERRA",
-    name: "Fall Limited Edition Sneakers",
+    brand: "URBAN",
+    name: "Classic Edition Sneakers",
     description: "Your perfect casual companion. Featuring a durable rubber sole to withstand everything the weather offers.",
     price: 250.00,
     discount: 0, 
@@ -100,7 +100,7 @@ export const products: Product[] = [
   {
     id: 2,
     brand: "URBAN",
-    name: "Midnight Stealth Runner",
+    name: "Classic Stealth Runner",
     description: "Engineered for the night. Features reflective materials and breathable mesh for maximum city comfort.",
     price: 180.00,
     discount: 15,
@@ -127,7 +127,7 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    brand: "EXPLORER",
+    brand: "SKY",
     name: "Outdoor Nomad Trail",
     description: "Ready for any terrain. Combines the grip of a hiking boot with the lightness of a high-end trainer.",
     price: 165.00,
@@ -141,7 +141,7 @@ export const products: Product[] = [
   },
   {
     id: 5,
-    brand: "VELOCITY",
+    brand: "SKY",
     name: "Nitro Boost Prime",
     description: "Designed for performance. Offers unparalleled energy return and a lockdown fit that feels like a second skin.",
     price: 230.00,
@@ -155,7 +155,7 @@ export const products: Product[] = [
   },
   {
     id: 6,
-    brand: "ELEMENT",
+    brand: "TERRA",
     name: "Arctic Frost Hi-Top",
     description: "Beat the cold in style. Insulated hi-tops with thermal lining and waterproof leather for harsh winters.",
     price: 195.00,
@@ -169,7 +169,7 @@ export const products: Product[] = [
   },
   {
     id: 7,
-    brand: "LEGACY",
+    brand: "URBAN",
     name: "Classic Heritage Leather",
     description: "A timeless silhouette reborn. Handcrafted with premium Italian leather for your everyday luxury rotation.",
     price: 275.00,
@@ -183,8 +183,8 @@ export const products: Product[] = [
   },
   {
     id: 8,
-    brand: "ZENITH",
-    name: "Cloud-Walk Knit",
+    brand: "SKY",
+    name: "Aero-Walk Knit",
     description: "The ultimate in comfort. An engineered knit upper provides flexibility, making it our lightest sneaker yet.",
     price: 150.00,
     discount: 0,

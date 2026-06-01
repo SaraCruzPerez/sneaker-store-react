@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+
 import logo from "../../../assets/icons/logo.svg";
 import btnMenu from "../../../assets/icons/icon-menu.svg";
 import Navbar from "../Navbar/Navbar.js";
 import CartButton from "../../../features/Cart/CartButton.js";
 import WishlistButton from "../../../features/Wishlist/WishlistButton.js";
 import UserButton from "../../../features/User/UserButton.js";
+import SearchBar from "../../../features/Search/SearchBar";
 import "./Header.css";
 
 const Header: React.FC = () => {
@@ -22,8 +24,11 @@ const Header: React.FC = () => {
       </Link>
 
       <Navbar isOpen={isMenuOpen} onClose={toggleMenu} id="menu-navigation" />
+      
+      <SearchBar />
 
       <div className="header__actions">
+        
         <UserButton />
         <WishlistButton />
         <CartButton />

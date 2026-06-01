@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--clr-primary); 
+    color: var(--clr-neutral-100); 
 }
 
 .toast--remove .toast__symbol { 
