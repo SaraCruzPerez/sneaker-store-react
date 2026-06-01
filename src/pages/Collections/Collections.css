@@ -5,6 +5,15 @@
     min-height: 90vh;
     padding: 2rem 1.5rem 3rem;
     margin: 0 auto;
+    width: 100%;
+}
+
+.collections__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    text-align: left;       
 }
 
 /*---------- H E A D E R ----------*/
@@ -14,6 +23,8 @@
     font-weight: var(--fw-bold);
     color: var(--clr-neutral-900);
     line-height: 1;
+    text-align: left;
+    width: 100%;
 }
 
 .collections__title-orange {
@@ -24,6 +35,8 @@
     margin: 0.6rem 0 3rem;
     font-size: 1rem;
     color: var(--clr-neutral-400);     
+    text-align: left;
+    width: 100%;
     
 }
 
@@ -31,7 +44,64 @@
     display: grid;     
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 1.5rem 1.5rem; 
+    width: 100%;
 }
+
+/*---------- S E A R C H - S T A T U S ----------*/
+
+.collections__search-status {
+    font-size: 0.8rem;
+    color: var(--clr-neutral-400);
+    margin-top: -0.5rem; 
+    margin-bottom: 1rem;
+    text-align: left;
+    letter-spacing: 0.02em;
+}
+
+.collections__search-status span {
+    color: var(--clr-neutral-900);
+    font-weight: var(--fw-bold, 700);
+    padding: 0 0.2rem;
+}
+
+/*---------- E M P T Y  S T A T E  ----------*/
+
+.collections__empty-state {
+    width: 100%;
+    background-color: var(--clr-neutral-50, #fafafa);
+    border-radius: 12px;
+    margin: 0.2rem auto;
+    padding: 4.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+}
+
+.collections__empty-title {
+    font-size: 1.4rem;
+    font-weight: var(--fw-bold, 700);
+    color: var(--clr-neutral-900);
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.02em;
+}
+
+.collections__empty-suggestions {
+    font-size: 0.9rem;
+    color: var(--clr-neutral-400);
+    display: flex;
+    align-items: center;
+}
+
+.collections__empty-suggestions span {
+    font-weight: var(--fw-bold);
+    color: var(--clr-neutral-400);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    letter-spacing: 0.01em;
+}
+
 
 /*---------- D E S K T O P -----------*/
 
@@ -41,7 +111,7 @@
     }
     
     .collections__grid {
-        grid-template-columns: repeat(2, 1fr); 
+        grid-template-columns: repeat(4, 1fr); 
     }
 
     .collections__subtitle {

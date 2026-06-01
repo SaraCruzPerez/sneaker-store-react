@@ -1,19 +1,20 @@
-# 👟 Sneaker e-Commerce – High Performance & Testing Focus
+# 👟 Sneaker e-Commerce — React & TypeScript Frontend Application
 
-Proyecto de e-commerce profesional desarrollado con **React** y **TypeScript**. Construido íntegramente desde cero (desde el diseño de interfaz enfocado en usabilidad hasta la arquitectura frontend) y evolucionado a un entorno robusto, completamente tipado y testeado para garantizar la máxima estabilidad y accesibilidad (WCAG).
+Frontend e-commerce application built with React and TypeScript, focused on scalable frontend architecture, accessibility, responsive design, and testing.
+
 
 <br />
 
 <div align="center">    
     <img src="./screenshots/home-desktop.webp" width="63.5%" style="margin: 10px;" alt="Desktop Home"> 
-    <img src="./screenshots/home-mobile.webp" width="15%" style="margin: 10px;" alt="Mobile Home"> 
+    <img src="./screenshots/home-mobile.webp" width="13.85%" style="margin: 10px;" alt="Mobile Home"> 
 </div>
 
 <br />
 
 ---
 
-## 🚀 [Ver Demo en Vivo →](https://sneaker-store-react.vercel.app)
+## 🚀 Live Demo [View Live Project →](https://sneaker-store-react.vercel.app)
 
 <br />
 
@@ -27,7 +28,7 @@ Proyecto de e-commerce profesional desarrollado con **React** y **TypeScript**. 
 
 ---
 
-## 🛠️ Stack Técnico
+## 🛠️ Tech Stack
 
 <br />
 
@@ -41,25 +42,27 @@ Proyecto de e-commerce profesional desarrollado con **React** y **TypeScript**. 
 
 ---
 
-## 💎 Características Clave
+## 💎 Key Features
 
-- **TypeScript:** Tipado completo de modelos de datos, props y contextos globales para eliminar errores en tiempo de ejecución.
-- **Checkout Multi-paso:** Flujo complejo de pago (Envío → Pago → Confirmación) con persistencia de estado y validaciones en tiempo real.
-- **Accesibilidad (A11y):** Implementación de estándares WCAG, navegación por teclado y atributos ARIA.
-- **Geolocalización:** Integración con Leaflet y OpenStreetMap para localización dinámica de tiendas.
-- **Arquitectura de Estilos:** Metodología BEM para un CSS mantenible y escalable.
+- **TypeScript Architecture:** Fully typed components, props, and global state management.
+- **Advanced Checkout Flow:** Multi-step purchase flow with validation and state persistence.
+- **Search Experience:** Real-time product search with instant filtering.
+- **Accessibility (WCAG):** Semantic HTML, keyboard navigation, and ARIA support.
+- **Geolocation Integration:** Dynamic store locator using Leaflet and OpenStreetMap.
+- **Scalable Styling System:** Reusable UI structure using BEM methodology.
+- **Testing:** Unit and integration testing with Vitest and React Testing Library.
 
 <br />
 
 ---
 
-## 🧪 Calidad de Código (Testing)
+## 🧪 Testing & Code Quality
 
-Este proyecto prioriza la estabilidad. He implementado una suite de pruebas  con **Vitest** y **React Testing Library**.
+Focused on maintainability and frontend stability through automated testing.
 
-- **Cobertura:** >98% en lógica de negocio y componentes críticos.
-- **Pruebas de Integración:** Validación del flujo completo del carrito y checkout.
-- **Unit Testing:** Pruebas unitarias para reducers, hooks personalizados y utilidades de formato.
+- 99%+ coverage across critical components and business logic.
+- Integration testing for cart and checkout flows.
+- Unit testing for reducers, utilities, and custom hooks.
 
 <div align="center">    
     <img src="./screenshots/testing.webp" width="75%" style="margin: 20px;" alt="Testing Report"> 
@@ -67,23 +70,35 @@ Este proyecto prioriza la estabilidad. He implementado una suite de pruebas  con
 
 ---
 
-## 🧠 Desafíos Técnicos y Aprendizajes
+## 🧠 Technical Challenges & Learnings
 
-- **Migración a TS:** El mayor reto fue definir las interfaces para el estado global del proyecto. Aprendí a usar _Generics_ y a tipar correctamente la _Context API_, mejorando la DX (Developer Experience).
-- **Gestión de Estado:** Sincronizar el stock en tiempo real entre diferentes vistas sin perder rendimiento.
-- **Refactorización vía Testing:** Aprendí que el testing no es solo para buscar errores, sino que permite refactorizar código complejo con la seguridad de no romper funcionalidades existentes.
+- Migrated the project from JavaScript to TypeScript to improve scalability and maintainability.
+- Structured complex global state management and synchronized cart logic across views.
+- Improved code reliability and refactoring confidence through testing strategies.
 
 <br />
 
 ---
 
-## ⚙️ Instalación y Uso
+## ⚙️ Installation
 
-1. Clonar el repositorio: `git clone https://github.com/SaraCruzPerez/sneaker-store-react`
-2. Instalar dependencias: `npm install`
-3. Ejecutar proyecto: `npm run dev`
-4. Ejecutar Tests: `npm run test`
+```bash
+# Clone repository
+git clone https://github.com/SaraCruzPerez/sneaker-store-react
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Run tests:
+
+```bash
+npm run test
+```
 
 ---
 
-Desarrollado por **Sara Cruz** - Especialista en Frontend & Accesibilidad.
+Designed and developed by **Sara Cruz**
